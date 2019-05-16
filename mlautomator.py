@@ -14,6 +14,29 @@ from hyperopt import hp, fmin, tpe, rand, STATUS_OK, Trials
 
 class MLAutomator:
     '''
+    MLAutomator leverages the intelligent search properties of Hyperopt to reduce hyperparameter tuning times
+    across large hyperparameter search spaces.  This extra time allows you to spot-check a larger cross section 
+    of algorithms on your dataset.  
+
+    MLAutomator does not perform predictions, its sole function is to find the optimal pre-processors, features, and 
+    hyperparameters.
+
+    Parameters:
+    -----------
+    x_train : numpy ndarray
+        The training data that the models will be trained on.
+    y_train : numpy ndarray
+        The target variables for the model.
+    algo_type : str, optional (default='classifier')
+        Accepts 'classifier' or 'regressor'.  
+    score_metric : str, optional (default='accuracy')  
+        The scoring metric that Hyperopt will minimize on.  
+    iterations : int, optional (default=25)
+        The number of trials that Hyperopt will run on each algorithm candidate.
+    num_cv_folds : int, optional (default=10)
+        The number of folds to use in cross validation.
+    repeats : int, optional (default=1)
+        The number of passes to perform on cross validation.
     '''
 
     def __init__(
@@ -59,8 +82,7 @@ class MLAutomator:
             'neg_log_loss': 5,
         }
         self.best=initializer_dict[self.score_metric]
-
-
+        
 
     def get_objective(self,obj):
         '''
