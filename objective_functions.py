@@ -23,6 +23,7 @@ from sklearn.feature_selection import SelectKBest, chi2,f_classif
 from sklearn.pipeline import FeatureUnion
 
 #Local Imports
+from search_keys import get_keys
 
 #3rd party imports
 from xgboost import XGBClassifier
@@ -30,13 +31,15 @@ from xgboost import XGBClassifier
 class Classifiers:
 
     @staticmethod
-    def objective01(space, X,Y):
+    def objective01(automator, space):
+
+        X=automator.x_train
+        Y=automator.y_train
         
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=('max_depth','min_child_weight','gamma','learning_rate','subsample','colsample_bylevel', \
-            'colsample_bytree','n_estimators')
+        keys=get_keys('xgboost')
         
         subspace={k:space[k] for k in set(space).intersection(keys)}
         
@@ -48,17 +51,16 @@ class Classifiers:
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
         pipeline=[]
-        pipeline=Pipeline([('scaler', scaler),
-                        ('select_best', SelectKBest(k=num_features)),
-                        ('classifier',model)])
+        pipeline=Pipeline([
+            ('scaler', scaler),
+            ('select_best', SelectKBest(k=num_features)),
+            ('classifier',model)
+            ])
         
         #perform two passes of 10-fold cross validation and return the mean score.
-        kfold = RepeatedKFold(n_splits=10, n_repeats=1)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='accuracy',verbose=False).mean()
+        kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()
         
-        #best is a global variable that will be defined later.  By adding this as a threshold, 
-        #we only train models that beat the baseline benchmark, and then the subsequent best score
-        #thereafter.  This reduces the time complexity of this algorithm significantly.
         
         return scores
 
