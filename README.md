@@ -3,11 +3,24 @@ Machine Learning Automator ('ML Automator' for short) is an automation project t
 
 ## Usage 
 
+```Python
+import MLAutomator
+
+#Compile training and target data from .csv file
+x,y=get_data('pima-indians-diabetes.csv')
+
+automator=MLAutomator(x,y,iterations=25)
+automator.find_best_algorithm()
+automator.print_best_space()
+```
+
+MLAutomator can typically find a 98th percentile solution in a fraction of the time of Gridsearch of randomized search.  Here it did a 
+comprehensive scan across all hyperparameters for 6 common machine learning algorithms and produced exceptional model performance for the classic Pima Indians Diabetes dataset.
 
 ```
 Best Algorithm Configuration:
     Best algorithm: Logistic Regression
-    Best accuracy : -0.7773239917976761
+    Best accuracy : 77.73239917976761%
     C : 0.02341
     k_best : 6
     penalty : l2
