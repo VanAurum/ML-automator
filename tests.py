@@ -9,8 +9,7 @@ class TestMLAutomator(unittest.TestCase):
 
     def setUp(self):
         self.x, self.y = get_data('pima-indians-diabetes.csv')
-
-    
+  
     def test_automator_initialization(self):
         '''
         Test that all class properties are being initialized properly.
