@@ -1,14 +1,6 @@
 #Standard Python libary imports
-import time 
-import numpy as np
 import pandas as pd
-
-#Local imports
-from objective_functions import Classifiers
-from search_spaces import get_space
-
-#3rd party imports
-from hyperopt import hp, fmin, tpe, rand,STATUS_OK, Trials
+import numpy as np
 
 
 def get_data(filename=None):

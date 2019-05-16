@@ -64,11 +64,11 @@ def get_space(space):
                 #Support Vector Machine search space        
                 '04':       {
                             'C': hp.choice('C', np.arange(0.0,1.0,0.00005)),
+                            'gamma': hp.choice('x_gamma',['auto']),
                             'kernel': hp.choice('x_kernel',['poly', 'rbf']),
                             'degree':hp.choice('x_degree',[2,3,4,5]),
                             'probability':hp.choice('x_probability',[True]),
                             'k_best':hp.choice('x_k_best',k_best),
-                            'n_estimators':hp.choice('x_n_estimators',np.arange(5,200,1)),
                             'scaler':hp.choice('x_scale',scaler_list)                    
                             },
                         

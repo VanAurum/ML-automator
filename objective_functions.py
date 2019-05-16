@@ -1,6 +1,4 @@
 # Standard Python Library imports
-from random import shuffle
-import pprint
 import time
 import numpy as np
 import pandas as pd
@@ -8,19 +6,16 @@ from sklearn.model_selection import (StratifiedKFold, RepeatedKFold, KFold, cros
 from sklearn.linear_model import SGDClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
-from sklearn.metrics import log_loss
 from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import RobustScaler
-from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, RobustScaler
 from sklearn.svm import SVC
 from sklearn.ensemble import BaggingClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import Pipeline
+from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.feature_selection import SelectKBest, chi2,f_classif
-from sklearn.pipeline import FeatureUnion
+
 
 #Local Imports
 from search_keys import get_keys
@@ -32,7 +27,7 @@ class Classifiers:
 
     @staticmethod
     def objective01(automator, space):
-
+        algo='XGBoost Classifier'
         X=automator.x_train
         Y=automator.y_train
         
@@ -54,107 +49,105 @@ class Classifiers:
         pipeline=Pipeline([
             ('scaler', scaler),
             ('select_best', SelectKBest(k=num_features)),
-            ('classifier',model)
+            ('classifier',model),
             ])
         
-        #perform two passes of 10-fold cross validation and return the mean score.
+        #perform cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()
-        
-        
-        return scores
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
+        return scores, algo
 
 
     @staticmethod
-    def objective02(space, X,Y):
-        
+    def objective02(automator, space):
+        algo='SGD Classifier'
+        X=automator.x_train
+        Y=automator.y_train
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=('loss','penalty','alpha','max_iter')    
+        keys=get_keys('SGDClassifier')   
         subspace={k:space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
-        
         model = SGDClassifier(n_jobs=-1,**subspace)   
         scaler=space.get('scaler')
         num_features=space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
         pipeline=[]
-        pipeline=Pipeline([('scaler', scaler),
-                        ('select_best', SelectKBest(k=num_features)),
-                        ('classifier',model)])
+        pipeline=Pipeline([
+            ('scaler', scaler),
+            ('select_best', SelectKBest(k=num_features)),
+            ('classifier',model),
+            ])
         
-        #perform two passes of 10-fold cross validation and return the mean score.
-        kfold = RepeatedKFold(n_splits=10, n_repeats=1)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='accuracy',verbose=False).mean()
-        
-        return scores
+        #perform cross validation and return the mean score.
+        kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()     
+        return scores, algo
 
 
     @staticmethod
-    def objective03(space, X,Y):
-        
+    def objective03(automator,space):
+        algo='Random Forest Classifier'
+        X=automator.x_train
+        Y=automator.y_train
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=('n_estimators','max_depth','max_features','criterion','min_samples_split',\
-            'min_samples_leaf','min_impurity_decrease','n_jobs')
-        
+        keys=get_keys('RandomForestClassifier')  
         subspace={k:space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
-        
         model = RandomForestClassifier(**subspace)   
         scaler=space.get('scaler')
         num_features=space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
         pipeline=[]
-        pipeline=Pipeline([('scaler', scaler),
-                        ('select_best', SelectKBest(k=num_features)),
-                        ('classifier',model)])
+        pipeline=Pipeline([
+            ('scaler', scaler),
+            ('select_best', SelectKBest(k=num_features)),
+            ('classifier',model),
+            ])
         
         #perform two passes of 10-fold cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=10, n_repeats=1)
         scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='accuracy',verbose=False).mean()
-        
-        return scores
+        return scores, algo
 
 
     @staticmethod
-    def objective04(space, X,Y):
-        
+    def objective04(automator,space):
+        algo='Support Vector Machine'
+        X=automator.x_train
+        Y=automator.y_train
+
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=('C','kernel','degree','probability')     
+        keys=get_keys('SVC')    
         subspace={k:space[k] for k in set(space).intersection(keys)}
+
         
-        #Extract the remaining keys that are pertinent to data preprocessing.
-        n_estimators=space.get('n_estimators')
-        
-        #Build a bagging model with the parameters from our Hyperopt search space.
-        model = BaggingClassifier(SVC(**subspace),
-                                max_samples=len(X)//n_estimators,
-                                n_estimators=n_estimators,
-                                n_jobs=-1)
-        
+        #Build a model with the parameters from our Hyperopt search space.
+        model = SVC(probability=True,**subspace)
         scaler=space.get('scaler')
         num_features=space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
         pipeline=[]
-        pipeline=Pipeline([('scaler', scaler),
-                        ('select_best', SelectKBest(k=num_features)),
-                        ('classifier',model)])
+        pipeline=Pipeline([
+            ('scaler', scaler),
+            ('select_best', SelectKBest(k=num_features)),
+            ('classifier',model),
+            ])
         
-        #perform two passes of 10-fold cross validation and return the mean score.
-        kfold = RepeatedKFold(n_splits=10, n_repeats=1)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='accuracy',verbose=False).mean()
-        
-        return scores
+        #perform cross validation and return the mean score.
+        kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
+        return scores, algo
 
 
 class Regressors:

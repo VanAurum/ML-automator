@@ -40,11 +40,11 @@ class MLAutomator:
         self.num_cv_folds=10
         self.repeats=repeats
         self.objective=None
-        self.initialize_best()
+        self._initialize_best()
         self.best_space=None
 
 
-    def initialize_best(self):
+    def _initialize_best(self):
         '''
         '''
         initializer_dict={
@@ -83,7 +83,7 @@ class MLAutomator:
         '''
         '''
         iter_start=time.time()
-        loss = self.objective(self,space)
+        loss, algo = self.objective(self,space)
         self.count+=1
         iter_end=round((time.time()-iter_start)/60,3)
         total_time=round((time.time()-self.start_time)/60,3)
@@ -98,6 +98,7 @@ class MLAutomator:
             
             self.best = loss
             self.best_space=space
+            self.best_algo=algo
             print('')
             print('new best score:', self.best)
             for key,values in space.items():
@@ -116,7 +117,7 @@ class MLAutomator:
         '''
         '''
         self.start_time=time.time()
-        objectives=['01']
+        objectives=['04']
 
         for obj in objectives:
             keys=obj
@@ -137,6 +138,7 @@ class MLAutomator:
         '''
         '''
         print('Best Algorithm Configuration:')
+        print('    '+'Best algorithm: '+self.best_algo)
         print('    '+'Best '+self.score_metric+' : '+str(self.best))
         for key,val in self.best_space.items():
             print('    '+ str(key)+' : '+ str(val), end='\n')                                
