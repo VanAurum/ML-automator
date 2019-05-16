@@ -37,17 +37,22 @@ class MLAutomator:
         self.type=algo_type
         self.score_metric=score_metric
         self.iterations=iterations
-        self.num_cv_folds=10
+        self.num_cv_folds=num_cv_folds
         self.repeats=repeats
         self.objective=None
         self._initialize_best()
         self.best_space=None
         self.best_algo=None
         self.found_best_on=None
+        self.num_features=self.x_train.shape[1]
+        self.num_samples=self.x_train.shape[0]
 
 
     def _initialize_best(self):
         '''
+        Utility method for properly initializing the 'best' parameter.  After each iteration, the score will be checked
+        against 'best' to see if the space used in that iteration was superior.  Depending on the scoring metric used, 'best'
+        needs to be initialized to different values.
         '''
         initializer_dict={
             'accuracy': 0, 
@@ -59,6 +64,13 @@ class MLAutomator:
 
     def get_objective(self,obj):
         '''
+        A dictionary look-up function that offers a clean way of looping through the objective 
+        functions by key and returning the function call.  
+
+        Parameters: 
+        ----------
+        obj - string
+            key value representing the ojective function to call.
         '''
         if self.type=='classifier':
         
@@ -85,10 +97,19 @@ class MLAutomator:
 
     def f(self,space):
         '''
+        This is the "function to be minimized" by hyperopt. This gets passed to the fmin function 
+        within the method find_best_algorithm.
+
+        Parameters: 
+        -----------
+        space : dictionary 
+            subset of total search space selected by Hyperopt.
         '''
         iter_start=time.time()
         loss, algo = self.objective(self,space)
         self.count+=1
+
+        #time methods for providing analytics on how each iteration is taking.
         iter_end=round((time.time()-iter_start)/60,3)
         total_time=round((time.time()-self.start_time)/60,3)
         avg_time=round((total_time/self.count),3)
@@ -118,9 +139,13 @@ class MLAutomator:
 
     def find_best_algorithm(self):   
         '''
+        This is the main method call.  It loops through each objective function that is 
+        provided in the array 'objectives' and passes it to the Hyperopt function fmin.  fmin 
+        will intelligently search the search spaces for each algorithm and attempt to minimize (optimize) 
+        the scoring function provided.
         '''
         self.start_time=time.time()
-        objectives=['06']
+        objectives=['01','02','03','04','05','06']
 
         for obj in objectives:
             keys=obj
@@ -152,7 +177,7 @@ class MLAutomator:
 
 if __name__=='__main__':
     x,y=get_data('pima-indians-diabetes.csv')
-    automator=MLAutomator(x,y,iterations=30)
+    automator=MLAutomator(x,y,iterations=25)
     automator.find_best_algorithm()
     automator.print_best_space()
     

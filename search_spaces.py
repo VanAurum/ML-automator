@@ -1,6 +1,6 @@
 #Standard Python libary imports
 import numpy as np
-from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler, PowerTransformer
 
 #3rd party imports
 from hyperopt import hp
@@ -11,9 +11,8 @@ def get_space(automator, space):
     '''
 
     '''
-    num_features=automator.x_train.shape[1]
-    scaler_list=[StandardScaler(copy=True), RobustScaler(copy=True), MinMaxScaler(copy=True), None]
-    k_best=np.arange(1,num_features-1,1)
+    scaler_list=[StandardScaler(copy=True), RobustScaler(copy=True), MinMaxScaler(copy=True), PowerTransformer(), None]
+    k_best=np.arange(2,automator.num_features-1,1)
     n_components=np.round(np.arange(0.1,0.99,0.01),5)
     mcw=np.round(np.arange(0.0001,0.3,0.0001),5)
     
@@ -67,6 +66,7 @@ def get_space(automator, space):
                             'kernel': hp.choice('x_kernel',['poly', 'rbf']),
                             'degree':hp.choice('x_degree',[2,3,4,5]),
                             'probability':hp.choice('x_probability',[True]),
+                            'n_estimators':hp.choice('x_n_estimators',np.arange(4,25,1)),
                             'k_best':hp.choice('x_k_best',k_best),
                             'scaler':hp.choice('x_scale',scaler_list)                    
                             },

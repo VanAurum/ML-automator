@@ -28,6 +28,16 @@ from xgboost import XGBClassifier
 warnings.filterwarnings("ignore")
 
 class Classifiers:
+    '''
+    A utility class for holding all the objective functions for each classifier in the search space.
+        - You will see commonalities amongst the objective functions.  
+        - Each objective function takes an MLautomator object and "parameter space" as arguments.  
+        - During each pass through this objective function, Hyperopt selects a subset of the search space for 
+          the appropriate algorithm in search_spaces.py.
+        - Note that Hyperopt is also calling permutations of data transforms and feature selection as well.
+        - Each objective function returns the mean cross-validated score, and the name of the algorithm.  
+        - This gets anaylzed and packaged in the automator class itself.
+    '''
 
     @staticmethod
     def objective01(automator, space):
@@ -39,7 +49,6 @@ class Classifiers:
         #algorithm.
         
         keys=get_keys('xgboost')
-        
         subspace={k:space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
@@ -136,6 +145,14 @@ class Classifiers:
  
         #Build a model with the parameters from our Hyperopt search space.
         model = SVC(probability=True,**subspace)
+
+        n_estimators=space.get('n_estimators')
+        model = BaggingClassifier(
+            SVC(probability=True,**subspace),
+            max_samples=automator.num_samples//n_estimators,
+            n_estimators=n_estimators,
+            n_jobs=-1)   
+
         scaler=space.get('scaler')
         num_features=space.get('k_best')
         
