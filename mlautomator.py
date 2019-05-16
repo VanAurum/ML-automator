@@ -199,7 +199,7 @@ class MLAutomator:
 
 if __name__=='__main__':
     x,y=get_data('pima-indians-diabetes.csv')
-    automator=MLAutomator(x,y,iterations=25)
+    automator=MLAutomator(x,y,iterations=3)
     automator.find_best_algorithm()
     automator.print_best_space()
     

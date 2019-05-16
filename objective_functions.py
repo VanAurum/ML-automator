@@ -41,6 +41,9 @@ class Classifiers:
 
     @staticmethod
     def objective01(automator, space):
+        '''
+        Objective function for XGBoost Classifier.
+        '''
         algo='XGBoost Classifier'
         X=automator.x_train
         Y=automator.y_train
@@ -73,6 +76,9 @@ class Classifiers:
 
     @staticmethod
     def objective02(automator, space):
+        '''
+        Objective function for SGD Classifier.
+        '''
         algo='SGD Classifier'
         X=automator.x_train
         Y=automator.y_train
@@ -103,6 +109,9 @@ class Classifiers:
 
     @staticmethod
     def objective03(automator,space):
+        '''
+        Objective function for Random Forest Classifier.
+        '''
         algo='Random Forest Classifier'
         X=automator.x_train
         Y=automator.y_train
@@ -133,6 +142,11 @@ class Classifiers:
 
     @staticmethod
     def objective04(automator,space):
+        '''
+        Objective function for Support Vector Machines. Note that this method uses a Bagged Classifier 
+        as a wrapper for SVC.  Support Vector Machine run time scales by O(N^3).  Using bagged classifiers
+        break up the dataset into smaller samples so that runtime is manageable.
+        '''
         algo='Support Vector Machine'
         X=automator.x_train
         Y=automator.y_train
@@ -172,6 +186,9 @@ class Classifiers:
 
     @staticmethod
     def objective05(automator,space):
+        '''
+        Objective function for Naive Bayes
+        '''
         algo='GaussianNB'
         X=automator.x_train
         Y=automator.y_train
@@ -197,6 +214,9 @@ class Classifiers:
 
     @staticmethod
     def objective06(automator,space):
+        '''
+        Objective function for Logistic Regression.
+        '''
         algo='Logistic Regression'
         X=automator.x_train
         Y=automator.y_train
