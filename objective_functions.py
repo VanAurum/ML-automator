@@ -25,12 +25,12 @@ from sklearn.pipeline import FeatureUnion
 #Local Imports
 
 #3rd party imports
-from hyperopt import hp, fmin, tpe, rand,STATUS_OK, Trials
+from xgboost import XGBClassifier
 
 class Classifiers:
 
     @staticmethod
-    def objective01(space):
+    def objective01(space, X,Y):
         
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
@@ -53,22 +53,18 @@ class Classifiers:
                         ('classifier',model)])
         
         #perform two passes of 10-fold cross validation and return the mean score.
-        kfold = RepeatedKFold(n_splits=10, n_repeats=2)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='neg_log_loss',verbose=False).mean()
+        kfold = RepeatedKFold(n_splits=10, n_repeats=1)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='accuracy',verbose=False).mean()
         
         #best is a global variable that will be defined later.  By adding this as a threshold, 
         #we only train models that beat the baseline benchmark, and then the subsequent best score
         #thereafter.  This reduces the time complexity of this algorithm significantly.
         
-        if (scores < best): 
-            
-            pipeline.fit(X,Y)    
-        
-        return pipeline,scores
+        return scores
 
 
     @staticmethod
-    def objective02(space):
+    def objective02(space, X,Y):
         
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
@@ -89,18 +85,14 @@ class Classifiers:
                         ('classifier',model)])
         
         #perform two passes of 10-fold cross validation and return the mean score.
-        kfold = RepeatedKFold(n_splits=10, n_repeats=2)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='neg_log_loss',verbose=False).mean()
-            
-        if (scores < best): 
-            
-            pipeline.fit(X,Y)    
+        kfold = RepeatedKFold(n_splits=10, n_repeats=1)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='accuracy',verbose=False).mean()
         
-        return pipeline,scores
+        return scores
 
 
     @staticmethod
-    def objective03(space):
+    def objective03(space, X,Y):
         
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
@@ -123,18 +115,14 @@ class Classifiers:
                         ('classifier',model)])
         
         #perform two passes of 10-fold cross validation and return the mean score.
-        kfold = RepeatedKFold(n_splits=10, n_repeats=2)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='neg_log_loss',verbose=False).mean()
-            
-        if (scores < best): 
-            
-            pipeline.fit(X,Y)    
+        kfold = RepeatedKFold(n_splits=10, n_repeats=1)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='accuracy',verbose=False).mean()
         
-        return pipeline,scores
+        return scores
 
 
     @staticmethod
-    def objective04(space):
+    def objective04(space, X,Y):
         
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
@@ -161,11 +149,11 @@ class Classifiers:
                         ('classifier',model)])
         
         #perform two passes of 10-fold cross validation and return the mean score.
-        kfold = RepeatedKFold(n_splits=10, n_repeats=2)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='neg_log_loss',verbose=False).mean()
-            
-        if (scores < best): 
-            
-            pipeline.fit(X,Y)    
+        kfold = RepeatedKFold(n_splits=10, n_repeats=1)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='accuracy',verbose=False).mean()
         
-        return pipeline,scores
+        return scores
+
+
+class Regressors:
+    pass
