@@ -27,141 +27,145 @@ from sklearn.pipeline import FeatureUnion
 #3rd party imports
 from hyperopt import hp, fmin, tpe, rand,STATUS_OK, Trials
 
+class Classifiers:
 
-
-def objective01(space):
-    
-    #Define the subset of dictionary keys that should get passed to the machine learning
-    #algorithm.
-    
-    keys=('max_depth','min_child_weight','gamma','learning_rate','subsample','colsample_bylevel', \
-          'colsample_bytree','n_estimators')
-    
-    subspace={k:space[k] for k in set(space).intersection(keys)}
-    
-    #Extract the remaining keys that are pertinent to data preprocessing.
-    
-    model = XGBClassifier(n_jobs=-1,**subspace)     
-    scaler=space.get('scaler')
-    num_features=space.get('k_best')
-    
-    #Assemble a data pipeline with the extracted data preprocessing keys.
-    pipeline=[]
-    pipeline=Pipeline([('scaler', scaler),
-                       ('select_best', SelectKBest(k=num_features)),
-                       ('classifier',model)])
-    
-    #perform two passes of 10-fold cross validation and return the mean score.
-    kfold = RepeatedKFold(n_splits=10, n_repeats=2)
-    scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='neg_log_loss',verbose=False).mean()
-    
-    #best is a global variable that will be defined later.  By adding this as a threshold, 
-    #we only train models that beat the baseline benchmark, and then the subsequent best score
-    #thereafter.  This reduces the time complexity of this algorithm significantly.
-    
-    if (scores < best): 
+    @staticmethod
+    def objective01(space):
         
-        pipeline.fit(X,Y)    
-    
-    return pipeline,scores
+        #Define the subset of dictionary keys that should get passed to the machine learning
+        #algorithm.
+        
+        keys=('max_depth','min_child_weight','gamma','learning_rate','subsample','colsample_bylevel', \
+            'colsample_bytree','n_estimators')
+        
+        subspace={k:space[k] for k in set(space).intersection(keys)}
+        
+        #Extract the remaining keys that are pertinent to data preprocessing.
+        
+        model = XGBClassifier(n_jobs=-1,**subspace)     
+        scaler=space.get('scaler')
+        num_features=space.get('k_best')
+        
+        #Assemble a data pipeline with the extracted data preprocessing keys.
+        pipeline=[]
+        pipeline=Pipeline([('scaler', scaler),
+                        ('select_best', SelectKBest(k=num_features)),
+                        ('classifier',model)])
+        
+        #perform two passes of 10-fold cross validation and return the mean score.
+        kfold = RepeatedKFold(n_splits=10, n_repeats=2)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='neg_log_loss',verbose=False).mean()
+        
+        #best is a global variable that will be defined later.  By adding this as a threshold, 
+        #we only train models that beat the baseline benchmark, and then the subsequent best score
+        #thereafter.  This reduces the time complexity of this algorithm significantly.
+        
+        if (scores < best): 
+            
+            pipeline.fit(X,Y)    
+        
+        return pipeline,scores
 
 
-def objective02(space):
-    
-    #Define the subset of dictionary keys that should get passed to the machine learning
-    #algorithm.
-    
-    keys=('loss','penalty','alpha','max_iter')    
-    subspace={k:space[k] for k in set(space).intersection(keys)}
-    
-    #Extract the remaining keys that are pertinent to data preprocessing.
-    
-    model = SGDClassifier(n_jobs=-1,**subspace)   
-    scaler=space.get('scaler')
-    num_features=space.get('k_best')
-    
-    #Assemble a data pipeline with the extracted data preprocessing keys.
-    pipeline=[]
-    pipeline=Pipeline([('scaler', scaler),
-                       ('select_best', SelectKBest(k=num_features)),
-                       ('classifier',model)])
-    
-    #perform two passes of 10-fold cross validation and return the mean score.
-    kfold = RepeatedKFold(n_splits=10, n_repeats=2)
-    scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='neg_log_loss',verbose=False).mean()
+    @staticmethod
+    def objective02(space):
         
-    if (scores < best): 
+        #Define the subset of dictionary keys that should get passed to the machine learning
+        #algorithm.
         
-        pipeline.fit(X,Y)    
-    
-    return pipeline,scores
+        keys=('loss','penalty','alpha','max_iter')    
+        subspace={k:space[k] for k in set(space).intersection(keys)}
+        
+        #Extract the remaining keys that are pertinent to data preprocessing.
+        
+        model = SGDClassifier(n_jobs=-1,**subspace)   
+        scaler=space.get('scaler')
+        num_features=space.get('k_best')
+        
+        #Assemble a data pipeline with the extracted data preprocessing keys.
+        pipeline=[]
+        pipeline=Pipeline([('scaler', scaler),
+                        ('select_best', SelectKBest(k=num_features)),
+                        ('classifier',model)])
+        
+        #perform two passes of 10-fold cross validation and return the mean score.
+        kfold = RepeatedKFold(n_splits=10, n_repeats=2)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='neg_log_loss',verbose=False).mean()
+            
+        if (scores < best): 
+            
+            pipeline.fit(X,Y)    
+        
+        return pipeline,scores
 
 
-def objective03(space):
-    
-    #Define the subset of dictionary keys that should get passed to the machine learning
-    #algorithm.
-    
-    keys=('n_estimators','max_depth','max_features','criterion','min_samples_split',\
-          'min_samples_leaf','min_impurity_decrease','n_jobs')
-    
-    subspace={k:space[k] for k in set(space).intersection(keys)}
-    
-    #Extract the remaining keys that are pertinent to data preprocessing.
-    
-    model = RandomForestClassifier(**subspace)   
-    scaler=space.get('scaler')
-    num_features=space.get('k_best')
-    
-    #Assemble a data pipeline with the extracted data preprocessing keys.
-    pipeline=[]
-    pipeline=Pipeline([('scaler', scaler),
-                       ('select_best', SelectKBest(k=num_features)),
-                       ('classifier',model)])
-    
-    #perform two passes of 10-fold cross validation and return the mean score.
-    kfold = RepeatedKFold(n_splits=10, n_repeats=2)
-    scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='neg_log_loss',verbose=False).mean()
+    @staticmethod
+    def objective03(space):
         
-    if (scores < best): 
+        #Define the subset of dictionary keys that should get passed to the machine learning
+        #algorithm.
         
-        pipeline.fit(X,Y)    
-    
-    return pipeline,scores
+        keys=('n_estimators','max_depth','max_features','criterion','min_samples_split',\
+            'min_samples_leaf','min_impurity_decrease','n_jobs')
+        
+        subspace={k:space[k] for k in set(space).intersection(keys)}
+        
+        #Extract the remaining keys that are pertinent to data preprocessing.
+        
+        model = RandomForestClassifier(**subspace)   
+        scaler=space.get('scaler')
+        num_features=space.get('k_best')
+        
+        #Assemble a data pipeline with the extracted data preprocessing keys.
+        pipeline=[]
+        pipeline=Pipeline([('scaler', scaler),
+                        ('select_best', SelectKBest(k=num_features)),
+                        ('classifier',model)])
+        
+        #perform two passes of 10-fold cross validation and return the mean score.
+        kfold = RepeatedKFold(n_splits=10, n_repeats=2)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='neg_log_loss',verbose=False).mean()
+            
+        if (scores < best): 
+            
+            pipeline.fit(X,Y)    
+        
+        return pipeline,scores
 
 
-def objective04(space):
-    
-    #Define the subset of dictionary keys that should get passed to the machine learning
-    #algorithm.
-    
-    keys=('C','kernel','degree','probability')     
-    subspace={k:space[k] for k in set(space).intersection(keys)}
-    
-    #Extract the remaining keys that are pertinent to data preprocessing.
-    n_estimators=space.get('n_estimators')
-    
-    #Build a bagging model with the parameters from our Hyperopt search space.
-    model = BaggingClassifier(SVC(**subspace),
-                              max_samples=len(X)//n_estimators,
-                              n_estimators=n_estimators,
-                              n_jobs=-1)
-    
-    scaler=space.get('scaler')
-    num_features=space.get('k_best')
-    
-    #Assemble a data pipeline with the extracted data preprocessing keys.
-    pipeline=[]
-    pipeline=Pipeline([('scaler', scaler),
-                       ('select_best', SelectKBest(k=num_features)),
-                       ('classifier',model)])
-    
-    #perform two passes of 10-fold cross validation and return the mean score.
-    kfold = RepeatedKFold(n_splits=10, n_repeats=2)
-    scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='neg_log_loss',verbose=False).mean()
+    @staticmethod
+    def objective04(space):
         
-    if (scores < best): 
+        #Define the subset of dictionary keys that should get passed to the machine learning
+        #algorithm.
         
-        pipeline.fit(X,Y)    
-    
-    return pipeline,scores
+        keys=('C','kernel','degree','probability')     
+        subspace={k:space[k] for k in set(space).intersection(keys)}
+        
+        #Extract the remaining keys that are pertinent to data preprocessing.
+        n_estimators=space.get('n_estimators')
+        
+        #Build a bagging model with the parameters from our Hyperopt search space.
+        model = BaggingClassifier(SVC(**subspace),
+                                max_samples=len(X)//n_estimators,
+                                n_estimators=n_estimators,
+                                n_jobs=-1)
+        
+        scaler=space.get('scaler')
+        num_features=space.get('k_best')
+        
+        #Assemble a data pipeline with the extracted data preprocessing keys.
+        pipeline=[]
+        pipeline=Pipeline([('scaler', scaler),
+                        ('select_best', SelectKBest(k=num_features)),
+                        ('classifier',model)])
+        
+        #perform two passes of 10-fold cross validation and return the mean score.
+        kfold = RepeatedKFold(n_splits=10, n_repeats=2)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='neg_log_loss',verbose=False).mean()
+            
+        if (scores < best): 
+            
+            pipeline.fit(X,Y)    
+        
+        return pipeline,scores
