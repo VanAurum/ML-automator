@@ -1,7 +1,18 @@
 # ML Automator
 Machine Learning Automator ('ML Automator' for short) is an automation project that integrates the Hyperopt asynchronous optimization engine with the main learning algorithms from Python's Sci-kit Learn to generate a really fast, automated tool for tuning machine learning algorithms.  
 
+## Key features:
+
+* Optimizes across data pre-processing and feature selection __in addition__ to hyperparameters.
+* Fast, intelligent scan of parameter space using __Hyperopt__. 
+* Optimized parameter search allows you to scan across a larger cross section of algorithms in the same period of time.  
+* An exceptional spot-checking algorithm.
+
 ## Usage 
+
+__MLAutomator__ accepts a training dataset X, and a target Y.  The user can define their own functions for how these datasets are produced.  Note that MLAutomator is designed to be a highly optimized spot-checking algorithm - you should take care to make sure you data is free from errors, and any missing values have been dealth with.   
+
+MLAutomator will find ways of transforming and pre-processing your data to produce a superior model.  Feel free to make your own transformations before passing the data to MLAutomator.  
 
 ```Python
 import MLAutomator
