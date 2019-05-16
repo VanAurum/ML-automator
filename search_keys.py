@@ -35,7 +35,12 @@ def get_keys(algorithm):
             'gamma',
             'kernel',
             'degree',
-            ),     
+            ),
+        'LogisticRegression' : (
+            'C',
+            'solver',
+            'pentalty',   
+        )         
 
     }
 

@@ -42,6 +42,8 @@ class MLAutomator:
         self.objective=None
         self._initialize_best()
         self.best_space=None
+        self.best_algo=None
+        self.found_best_on=None
 
 
     def _initialize_best(self):
@@ -65,6 +67,8 @@ class MLAutomator:
                         '02': Classifiers.objective02,
                         '03': Classifiers.objective03,
                         '04': Classifiers.objective04,
+                        '05': Classifiers.objective05,
+                        '06': Classifiers.objective06,
                             }
         
         else:  
@@ -89,16 +93,11 @@ class MLAutomator:
         total_time=round((time.time()-self.start_time)/60,3)
         avg_time=round((total_time/self.count),3)
         
-        str1= 'Placeholder '
-        str2=' No Improvement. Iter time: '+str(iter_end)+'.'
-        str3=' Total Time Elapsed: '+str(total_time)+'.'
-        str4=' AVG Time: '+str(avg_time)
-        
-        if loss < self.best:
-            
+        if loss < self.best:  
             self.best = loss
             self.best_space=space
             self.best_algo=algo
+            self.found_best_on=self.count
             print('')
             print('new best score:', self.best)
             for key,values in space.items():
@@ -106,6 +105,10 @@ class MLAutomator:
             print('')    
             
         else:  
+            str1= 'Scanning '+algo+'.'
+            str2=' No Improvement. Iter time: '+str(iter_end)+'.'
+            str3=' Total Time Elapsed: '+str(total_time)+'.'
+            str4=' AVG Time: '+str(avg_time)
             print(str1+str2+str3+str4) 
 
         self.master_results.append([loss,space])
@@ -117,7 +120,7 @@ class MLAutomator:
         '''
         '''
         self.start_time=time.time()
-        objectives=['04']
+        objectives=['06']
 
         for obj in objectives:
             keys=obj
@@ -127,28 +130,29 @@ class MLAutomator:
             trials=Trials()
             best=fmin(
                 fn=self.f,
-                space=get_space(space),
+                space=get_space(self, space),
                 algo=tpe.suggest,
                 max_evals=self.iterations,
-                trials=trials
-                        )    
+                trials=trials,
+            )    
 
 
     def print_best_space(self):
         '''
+        Prints out a report with the best algorithm and its configuration.
         '''
         print('Best Algorithm Configuration:')
         print('    '+'Best algorithm: '+self.best_algo)
         print('    '+'Best '+self.score_metric+' : '+str(self.best))
         for key,val in self.best_space.items():
             print('    '+ str(key)+' : '+ str(val), end='\n')                                
-        print('    '+'Found solution in '+str(self.iterations)+' iterations') 
+        print('    '+'Found best solution on iteration '+str(self.found_best_on)+' of '+str(self.count)) 
         print('    '+'Validation used: '+str(self.num_cv_folds)+'-fold cross-validation')          
 
 
 if __name__=='__main__':
     x,y=get_data('pima-indians-diabetes.csv')
-    automator=MLAutomator(x,y,iterations=5)
+    automator=MLAutomator(x,y,iterations=30)
     automator.find_best_algorithm()
     automator.print_best_space()
     
