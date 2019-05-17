@@ -14,7 +14,7 @@ __MLAutomator__ accepts a training dataset X, and a target Y.  The user can defi
 
 MLAutomator will find ways of transforming and pre-processing your data to produce a superior model.  Feel free to make your own transformations before passing the data to MLAutomator.  
 
-## Optonal data utilities
+### Optional data utilities
 
 I'm building a suite of data utility functions which can prepare most classification and regression datasets.  These, however, are optional - __MLAutomator__ only requires __X and Y__ inputs in the form of a numpy ndarray.
 
