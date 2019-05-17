@@ -3,7 +3,7 @@ import unittest
 
 #Local imports
 from mlautomator import MLAutomator
-from main import get_data
+from data_utility import get_data
 
 class TestMLAutomator(unittest.TestCase):
 

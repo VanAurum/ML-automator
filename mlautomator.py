@@ -5,7 +5,7 @@ import numpy as np
 #Local imports
 from objective_functions import Classifiers, Regressors
 from search_spaces import get_space
-from main import get_data
+from data_utility import get_data
 
 #3rd party imports
 from hyperopt import hp, fmin, tpe, rand, STATUS_OK, Trials
