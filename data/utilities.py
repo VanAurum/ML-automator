@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 
-def get_data(filename=None):
+def clf_single_target(filename=None):
     
     '''
     '''
@@ -11,7 +11,7 @@ def get_data(filename=None):
     seed=np.random.seed(1985)
     
     #Load Numerai data from disk    
-    data_directory='datasets/'
+    data_directory='data/datasets/'
     training_data = pd.read_csv(data_directory+filename, header=0)
     
     # Transform the loaded CSV data into numpy arrays

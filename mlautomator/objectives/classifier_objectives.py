@@ -11,7 +11,6 @@ from sklearn.preprocessing import StandardScaler, RobustScaler
 from sklearn.svm import SVC
 from sklearn.ensemble import BaggingClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.feature_selection import SelectKBest, chi2,f_classif
@@ -20,7 +19,7 @@ import warnings
 
 
 #Local Imports
-from search_keys import get_keys
+from mlautomator.search_keys import get_keys
 
 #3rd party imports
 from xgboost import XGBClassifier
@@ -244,5 +243,3 @@ class Classifiers:
         scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
         return scores, algo        
 
-class Regressors:
-    pass

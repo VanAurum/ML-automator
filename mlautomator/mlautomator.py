@@ -3,9 +3,9 @@ import time
 import numpy as np
 
 #Local imports
-from objective_functions import Classifiers, Regressors
-from search_spaces import get_space
-from data_utility import get_data
+from mlautomator.objectives.classifier_objectives import Classifiers
+from mlautomator.objectives.regressor_objectives import Regressors
+from mlautomator.search_spaces import get_space
 
 #3rd party imports
 from hyperopt import hp, fmin, tpe, rand, STATUS_OK, Trials
@@ -197,9 +197,5 @@ class MLAutomator:
         print('    '+'Validation used: '+str(self.num_cv_folds)+'-fold cross-validation')          
 
 
-if __name__=='__main__':
-    x,y=get_data('pima-indians-diabetes.csv')
-    automator=MLAutomator(x,y,iterations=3)
-    automator.find_best_algorithm()
-    automator.print_best_space()
+
     
