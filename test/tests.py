@@ -3,12 +3,12 @@ import unittest
 
 #Local imports
 from mlautomator.mlautomator import MLAutomator
-from data.utilities import clf_single_target
+from data.utilities import clf_prep
 
 class TestMLAutomator(unittest.TestCase):
 
     def setUp(self):
-        self.x, self.y = clf_single_target('pima-indians-diabetes.csv')
+        self.x, self.y = clf_prep('pima-indians-diabetes.csv')
   
     def test_automator_initialization(self):
         '''
@@ -26,6 +26,10 @@ class TestMLAutomator(unittest.TestCase):
         self.assertEqual(automator.iterations,25)
         self.assertEqual(automator.num_cv_folds,10)
         self.assertEqual(automator.repeats,1)
+
+    def test_clf_prep(self):
+        pass
+        
 
 
 #if __name__=='__main__':

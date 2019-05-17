@@ -15,10 +15,11 @@ __MLAutomator__ accepts a training dataset X, and a target Y.  The user can defi
 MLAutomator will find ways of transforming and pre-processing your data to produce a superior model.  Feel free to make your own transformations before passing the data to MLAutomator.  
 
 ```Python
-import MLAutomator
+from data.utilities import clf_prep
+from mlautomator.mlautomator import MLAutomator
 
 #Compile training and target data from .csv file
-x,y=get_data('pima-indians-diabetes.csv')
+x,y=clf_prep('pima-indians-diabetes.csv')
 
 automator=MLAutomator(x,y,iterations=25)
 automator.find_best_algorithm()
