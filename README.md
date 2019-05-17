@@ -14,12 +14,21 @@ __MLAutomator__ accepts a training dataset X, and a target Y.  The user can defi
 
 MLAutomator will find ways of transforming and pre-processing your data to produce a superior model.  Feel free to make your own transformations before passing the data to MLAutomator.  
 
+## Optonal data utilities
+
+I'm building a suite of data utility functions which can prepare most classification and regression datasets.  These, however, are optional - __MLAutomator__ only requires __X and Y__ inputs in the form of a numpy ndarray.
+
 ```Python
 from data.utilities import clf_prep
-from mlautomator.mlautomator import MLAutomator
 
-#Compile training and target data from .csv file
 x,y=clf_prep('pima-indians-diabetes.csv')
+```
+
+Once you have training and target data, this is the main call to use MLAutomator...
+
+
+```Python
+from mlautomator.mlautomator import MLAutomator
 
 automator=MLAutomator(x,y,iterations=25)
 automator.find_best_algorithm()
