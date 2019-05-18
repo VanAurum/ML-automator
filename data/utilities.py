@@ -2,10 +2,13 @@
 import pandas as pd
 import numpy as np
 
+#Local imports
+from data.data_dict import get_data
+
 
 def clf_prep(filename=None,target_columns=1, ignore_columns=[]):
     '''
-    A utility method for preparing training and target data.
+    A utility method for preparing training and target data from a csv file.
 
     Parameters:
     -----------
@@ -34,5 +37,20 @@ def clf_prep(filename=None,target_columns=1, ignore_columns=[]):
          
     x_train=X.values
     y_train=Y.values
+
+    return x_train, y_train
+
+
+def from_sklearn(key):
+    '''
+    Imports and processes data from sklearn's library of sample datasets.
+    '''
+    data=get_data(key)
+    df=pd.DataFrame(data.data)
+    df.columns=data.feature_names
+    X = df[data.feature_names]
+    x_train=X.values
+    y_train = data.target
+
 
     return x_train, y_train

@@ -4,14 +4,13 @@ import numpy as np
 import pandas as pd
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import (StratifiedKFold, RepeatedKFold, KFold, cross_val_score)
-from sklearn.linear_model import SGDRegressor
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import SGDRegressor, LogisticRegression
+from sklearn.ensemble import RandomForestRegressor, BaggingRegressor
 from sklearn.naive_bayes import GaussianNB
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler, RobustScaler
 from sklearn.svm import SVR
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.feature_selection import SelectKBest, chi2,f_classif
 import warnings
@@ -76,17 +75,17 @@ class Regressors:
         '''
         Objective function for SGD Regressor.
         '''
-        algo='SGD Classifier'
+        algo='SGD Regressor'
         X=automator.x_train
         Y=automator.y_train
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=get_keys('SGDClassifier')   
+        keys=get_keys('SGDRegressor')   
         subspace={k:space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
-        model = SGDClassifier(n_jobs=-1,**subspace)   
+        model = SGDRegressor(**subspace)   
         scaler=space.get('scaler')
         num_features=space.get('k_best')
         
@@ -107,19 +106,19 @@ class Regressors:
     @staticmethod
     def objective03(automator,space):
         '''
-        Objective function for Random Forest Classifier.
+        Objective function for Random Forest Regressor.
         '''
-        algo='Random Forest Classifier'
+        algo='Random Forest Regressor'
         X=automator.x_train
         Y=automator.y_train
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=get_keys('RandomForestClassifier')  
+        keys=get_keys('RandomForestRegressor')  
         subspace={k:space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
-        model = RandomForestClassifier(**subspace)   
+        model = RandomForestRegressor(**subspace)   
         scaler=space.get('scaler')
         num_features=space.get('k_best')
         
@@ -133,7 +132,7 @@ class Regressors:
         
         #perform two passes of 10-fold cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=10, n_repeats=1)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='accuracy',verbose=False).mean()
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()
         return scores, algo
 
 
@@ -144,22 +143,22 @@ class Regressors:
         as a wrapper for SVC.  Support Vector Machine run time scales by O(N^3).  Using bagged classifiers
         break up the dataset into smaller samples so that runtime is manageable.
         '''
-        algo='Support Vector Machine'
+        algo='Support Vector Machine Regressor'
         X=automator.x_train
         Y=automator.y_train
 
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=get_keys('SVC')    
+        keys=get_keys('SVR')    
         subspace={k:space[k] for k in set(space).intersection(keys)}
  
         #Build a model with the parameters from our Hyperopt search space.
-        model = SVC(probability=True,**subspace)
+        model = SVR(probability=True,**subspace)
 
         n_estimators=space.get('n_estimators')
-        model = BaggingClassifier(
-            SVC(probability=True,**subspace),
+        model = BaggingRegressor(
+            SVR(probability=True,**subspace),
             max_samples=automator.num_samples//n_estimators,
             n_estimators=n_estimators,
             n_jobs=-1)   

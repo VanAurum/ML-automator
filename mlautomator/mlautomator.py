@@ -79,7 +79,7 @@ class MLAutomator:
         initializer_dict={
             'accuracy': 0, 
             'neg_log_loss': 5,
-            'mean_squared_error' : 10000000,
+            'neg_mean_squared_error' : 10000000,
         }
         self.best=initializer_dict[self.score_metric]
         
@@ -104,7 +104,7 @@ class MLAutomator:
                         '05': Classifiers.objective05,
                         '06': Classifiers.objective06,
                         '07': Classifiers.objective07,
-                            }
+                    }
         
         else:  
 
@@ -113,7 +113,10 @@ class MLAutomator:
                         '02': Regressors.objective02,
                         '03': Regressors.objective03,
                         '04': Regressors.objective04,
-                            }            
+                        '05': Regressors.objective05,
+                        '06': Regressors.objective06,
+
+                    }            
 
         return objective_list[obj]
 
@@ -168,7 +171,7 @@ class MLAutomator:
         the scoring function provided.
         '''
         self.start_time=time.time()
-        objectives=['07']
+        objectives=['03']
 
         for obj in objectives:
             keys=obj
