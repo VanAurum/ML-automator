@@ -103,6 +103,7 @@ class MLAutomator:
                         '04': Classifiers.objective04,
                         '05': Classifiers.objective05,
                         '06': Classifiers.objective06,
+                        '07': Classifiers.objective07,
                             }
         
         else:  
@@ -167,7 +168,7 @@ class MLAutomator:
         the scoring function provided.
         '''
         self.start_time=time.time()
-        objectives=['01','02','03','04','05','06']
+        objectives=['07']
 
         for obj in objectives:
             keys=obj

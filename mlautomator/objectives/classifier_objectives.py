@@ -3,6 +3,7 @@ import time
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import (StratifiedKFold, RepeatedKFold, KFold, cross_val_score)
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import SGDClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
@@ -50,7 +51,7 @@ class Classifiers:
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=get_keys('xgboost')
+        keys=get_keys('xgboost_classifier')
         subspace={k:space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
@@ -243,3 +244,35 @@ class Classifiers:
         scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
         return scores, algo        
 
+
+    @staticmethod
+    def objective07(automator,space):
+        '''
+        Objective function for K-Nearest Neighbors Voting Classifier.
+        '''
+        algo='K-Neighbor Classifier'
+        X=automator.x_train
+        Y=automator.y_train
+
+        #Define the subset of dictionary keys that should get passed to the machine learning
+        #algorithm.
+        keys=get_keys('KNeighborClassifier')    
+        subspace={k:space[k] for k in set(space).intersection(keys)}      
+
+        #Build a model with the parameters from our Hyperopt search space.
+        model = KNeighborsClassifier(n_jobs=-1, **subspace)
+        scaler=space.get('scaler')
+        num_features=space.get('k_best')
+        
+        #Assemble a data pipeline with the extracted data preprocessing keys.
+        pipeline=[]
+        pipeline=Pipeline([
+            ('scaler', scaler),
+            ('select_best', SelectKBest(k=num_features)),
+            ('classifier',model),
+        ])
+        
+        #perform cross validation and return the mean score.
+        kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
+        return scores, algo   

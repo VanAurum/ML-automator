@@ -2,14 +2,14 @@
 import time
 import numpy as np
 import pandas as pd
+from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import (StratifiedKFold, RepeatedKFold, KFold, cross_val_score)
 from sklearn.linear_model import SGDRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.naive_bayes import GaussianNB
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler, RobustScaler
-from sklearn.svm import SVC
-from sklearn.ensemble import BaggingClassifier
+from sklearn.svm import SVR
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline, FeatureUnion
@@ -48,7 +48,7 @@ class Regressors:
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=get_keys('xgboost')
+        keys=get_keys('xgboost_regressor')
         subspace={k:space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.

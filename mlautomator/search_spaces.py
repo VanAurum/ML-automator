@@ -85,7 +85,16 @@ def get_space(automator, space):
                             'solver':hp.choice('x_solver',[ 'lbfgs', 'liblinear', 'sag', 'saga']),
                             'k_best':hp.choice('x_k_best',k_best),
                             'scaler':hp.choice('x_scale',scaler_list)                                
-                            }                                 
+                            },
+
+                #KNearestNeighbor
+                '07':       {
+                            'n_neighbors': hp.choice('x_n_neighbors',np.arange(1,10,1)),
+                            'weights': hp.choice('x_weights',['uniform','distance']),
+                            'algorithm': hp.choice('x_algorithm',['ball_tree','kd_tree','brute','auto']),  
+                            'k_best':hp.choice('x_k_best',k_best),
+                            'scaler':hp.choice('x_scale',scaler_list),
+                            },   
                         
                 }
 

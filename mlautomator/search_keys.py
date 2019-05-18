@@ -4,7 +4,7 @@ def get_keys(algorithm):
     '''
     '''
     keys={
-        'xgboost': (
+        'xgboost_classifier': (
             'max_depth',
             'min_child_weight',
             'gamma',
@@ -40,7 +40,12 @@ def get_keys(algorithm):
             'C',
             'solver',
             'pentalty',   
-        )         
+            ),
+        'KNeighborClassifier': (
+            'n_neighbors',
+            'weights',
+            'algorithm',
+            ),             
 
     }
 
