@@ -164,31 +164,15 @@ def get_space(automator, space):
                                 'C': hp.choice('C', np.arange(0.0,1.0,0.00005)),
                                 'gamma': hp.choice('x_gamma',['auto']),
                                 'kernel': hp.choice('x_kernel',['poly', 'rbf']),
-                                'degree':hp.choice('x_degree',[2,3,4,5]),
-                                'probability':hp.choice('x_probability',[True]),
-                                'n_estimators':hp.choice('x_n_estimators',np.arange(4,25,1)),
+                                'degree':hp.choice('x_degree',[2,3,4]),
+                                'n_estimators':hp.choice('x_n_estimators',np.arange(10,100,1)),
                                 'k_best':hp.choice('x_k_best',k_best),
                                 'scaler':hp.choice('x_scale',scaler_list)                    
                                 },
 
-                    #GaussianNB search space    
-                    '05':       {
-                                'k_best':hp.choice('x_k_best',k_best),
-                                'scaler':hp.choice('x_scale',scaler_list)                    
-                                },      
-
-
-                    #LogisticRegression search space
-                    '06':       {
-                                'penalty': hp.choice('x_penalty', ['l1','l2']),
-                                'C': hp.choice('C', np.round(np.arange(0.0,1.0,0.00001),5)),
-                                'solver':hp.choice('x_solver',[ 'lbfgs', 'liblinear', 'sag', 'saga']),
-                                'k_best':hp.choice('x_k_best',k_best),
-                                'scaler':hp.choice('x_scale',scaler_list)                                
-                                },
 
                     #KNearestNeighbor Regressor search space
-                    '07':       {
+                    '05':       {
                                 'n_neighbors': hp.choice('x_n_neighbors',np.arange(1,10,1)),
                                 'weights': hp.choice('x_weights',['uniform','distance']),
                                 'algorithm': hp.choice('x_algorithm',['ball_tree','kd_tree','brute','auto']),  

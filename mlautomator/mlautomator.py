@@ -114,7 +114,6 @@ class MLAutomator:
                         '03': Regressors.objective03,
                         '04': Regressors.objective04,
                         '05': Regressors.objective05,
-                        '06': Regressors.objective06,
 
                     }            
 
@@ -171,7 +170,7 @@ class MLAutomator:
         the scoring function provided.
         '''
         self.start_time=time.time()
-        objectives=['03']
+        objectives=['05']
 
         for obj in objectives:
             keys=obj

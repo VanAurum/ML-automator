@@ -28,6 +28,7 @@ x,y=clf_prep('pima-indians-diabetes.csv')
 
 Once you have training and target data, this is the main call to use MLAutomator...
 
+### Classification Example
 
 ```Python
 from mlautomator.mlautomator import MLAutomator
@@ -56,6 +57,33 @@ Best Algorithm Configuration:
     Validation used: 10-fold cross-validation
 ```
 
-## Future Development
+### Regression Example
 
-Right now ML Automator handles classification problems, but as of right now (May 16, 2019) I'm building out regression functionality as well.  
+ML Automator supports regression problems as well. In this example we call the Boston Housing dataset from __sklearn.datasets__ using one of our utility functions.
+
+```Python
+from data.utilities import from_sklearn
+
+x,y=from_sklearn('boston')
+```
+
+```Python
+from mlautomator.mlautomator import MLAutomator
+
+automator=MLAutomator(x,y,iterations=30,algo_type='regressor',score_metric='neg_mean_squared_error')
+automator.find_best_algorithm()
+automator.print_best_space()
+```
+
+```
+Best Algorithm Configuration:
+    Best algorithm: K-Neighbor Regressor
+    Best neg_mean_squared_error : 10.41395782834094
+    algorithm : kd_tree
+    k_best : 11
+    n_neighbors : 2
+    scaler : StandardScaler(copy=True, with_mean=True, with_std=True)
+    weights : distance
+    Found best solution on iteration 24 of 30
+    Validation used: 10-fold cross-validation
+```

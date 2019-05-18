@@ -154,11 +154,10 @@ class Regressors:
         subspace={k:space[k] for k in set(space).intersection(keys)}
  
         #Build a model with the parameters from our Hyperopt search space.
-        model = SVR(probability=True,**subspace)
 
         n_estimators=space.get('n_estimators')
         model = BaggingRegressor(
-            SVR(probability=True,**subspace),
+            SVR(**subspace),
             max_samples=automator.num_samples//n_estimators,
             n_estimators=n_estimators,
             n_jobs=-1)   
@@ -177,53 +176,25 @@ class Regressors:
         #perform cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
         scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
-        return scores, algo
+        return scores, algo 
 
 
     @staticmethod
     def objective05(automator,space):
         '''
-        Objective function for Naive Bayes
+        Objective function for K-Nearest Neighbors Voting Regressor.
         '''
-        algo='GaussianNB'
-        X=automator.x_train
-        Y=automator.y_train
-
-        #Build a model with the parameters from our Hyperopt search space.
-        model = GaussianNB()
-        scaler=space.get('scaler')
-        num_features=space.get('k_best')
-        
-        #Assemble a data pipeline with the extracted data preprocessing keys.
-        pipeline=[]
-        pipeline=Pipeline([
-            ('scaler', scaler),
-            ('select_best', SelectKBest(k=num_features)),
-            ('classifier',model),
-        ])
-        
-        #perform cross validation and return the mean score.
-        kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
-        return scores, algo
-
-
-    @staticmethod
-    def objective06(automator,space):
-        '''
-        Objective function for Logistic Regression.
-        '''
-        algo='Logistic Regression'
+        algo='K-Neighbor Regressor'
         X=automator.x_train
         Y=automator.y_train
 
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
-        keys=get_keys('LogisticRegression')    
+        keys=get_keys('KNeighborRegressor')    
         subspace={k:space[k] for k in set(space).intersection(keys)}      
 
         #Build a model with the parameters from our Hyperopt search space.
-        model = LogisticRegression()
+        model = KNeighborsRegressor(n_jobs=-1, **subspace)
         scaler=space.get('scaler')
         num_features=space.get('k_best')
         
@@ -238,4 +209,4 @@ class Regressors:
         #perform cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
         scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
-        return scores, algo        
+        return scores, algo   

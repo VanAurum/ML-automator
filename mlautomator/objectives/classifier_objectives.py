@@ -158,7 +158,6 @@ class Classifiers:
         subspace={k:space[k] for k in set(space).intersection(keys)}
  
         #Build a model with the parameters from our Hyperopt search space.
-        model = SVC(probability=True,**subspace)
 
         n_estimators=space.get('n_estimators')
         model = BaggingClassifier(
