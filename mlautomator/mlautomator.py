@@ -11,7 +11,6 @@ from mlautomator.search_spaces import get_space
 from hyperopt import hp, fmin, tpe, rand, STATUS_OK, Trials
 
 
-
 class MLAutomator:
     '''
     MLAutomator leverages the intelligent search properties of Hyperopt to reduce hyperparameter tuning times
@@ -80,6 +79,7 @@ class MLAutomator:
         initializer_dict={
             'accuracy': 0, 
             'neg_log_loss': 5,
+            'mean_squared_error' : 10000000,
         }
         self.best=initializer_dict[self.score_metric]
         
