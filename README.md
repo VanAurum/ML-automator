@@ -61,6 +61,16 @@ Best Algorithm Configuration:
 
 Here are the results from the classic iris dataset, a multi-class classification problem with three classes
 
+```Python
+from data.utilities import from_sklearn
+from mlautomator.mlautomator import MLAutomator
+
+x,y=from_sklearn('iris')
+automator=MLAutomator(x,y,iterations=30,algo_type='classifier',score_metric='accuracy')
+automator.find_best_algorithm()
+automator.print_best_space()
+```
+
 ```
 Best Algorithm Configuration:
     Best algorithm: Support Vector Machine Classifier
