@@ -147,7 +147,7 @@ class Classifiers:
         as a wrapper for SVC.  Support Vector Machine run time scales by O(N^3).  Using bagged classifiers
         break up the dataset into smaller samples so that runtime is manageable.
         '''
-        algo='Support Vector Machine Classifier'
+        algo='Bag of Support Vector Machine Classifiers'
         X=automator.x_train
         Y=automator.y_train
 

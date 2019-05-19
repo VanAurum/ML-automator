@@ -73,7 +73,7 @@ automator.print_best_space()
 
 ```
 Best Algorithm Configuration:
-    Best algorithm: Support Vector Machine Classifier
+    Best algorithm: Bag of Support Vector Machine Classifiers
     Best accuracy : 96.67%
     C : 0.7064
     degree : 2
