@@ -170,7 +170,13 @@ class MLAutomator:
         the scoring function provided.
         '''
         self.start_time=time.time()
-        objectives=['05']
+        objectives=[
+            #'01',
+            #'02',
+            #'03',
+            '04',
+            #'05',
+            ]
 
         for obj in objectives:
             keys=obj

@@ -28,7 +28,7 @@ x,y=clf_prep('pima-indians-diabetes.csv')
 
 Once you have training and target data, this is the main call to use MLAutomator...
 
-### Classification Example
+### Classification Example: 2-class
 
 ```Python
 from mlautomator.mlautomator import MLAutomator
@@ -56,6 +56,28 @@ Best Algorithm Configuration:
     Found best solution on iteration 132 of 150
     Validation used: 10-fold cross-validation
 ```
+
+### Classification Example: Multi-class
+
+Here are the results from the classic iris dataset, a multi-class classification problem with three classes
+
+```
+Best Algorithm Configuration:
+    Best algorithm: Support Vector Machine Classifier
+    Best accuracy : 96.67%
+    C : 0.7064
+    degree : 2
+    gamma : auto
+    k_best : 2
+    kernel : rbf
+    n_estimators : 9
+    probability : True
+    scaler : None
+    Found best solution on iteration 3 of 30
+    Validation used: 10-fold cross-validation
+```
+
+
 
 ### Regression Example
 

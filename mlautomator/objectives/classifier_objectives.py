@@ -147,7 +147,7 @@ class Classifiers:
         as a wrapper for SVC.  Support Vector Machine run time scales by O(N^3).  Using bagged classifiers
         break up the dataset into smaller samples so that runtime is manageable.
         '''
-        algo='Support Vector Machine'
+        algo='Support Vector Machine Classifier'
         X=automator.x_train
         Y=automator.y_train
 
@@ -179,7 +179,14 @@ class Classifiers:
         
         #perform cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
+
+        try:
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+        except ValueError:
+            print('An error occurred with the following space: ')
+            print(space)
+            return automator.best, algo     
+
         return scores, algo
 
 
