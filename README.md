@@ -23,7 +23,7 @@ I'm building a suite of data utility functions which can prepare most classifica
 ```Python
 from data.utilities import clf_prep
 
-x,y=clf_prep('pima-indians-diabetes.csv')
+x, y = clf_prep('pima-indians-diabetes.csv')
 ```
 
 Once you have training and target data, this is the main call to use MLAutomator...
@@ -33,7 +33,7 @@ Once you have training and target data, this is the main call to use MLAutomator
 ```Python
 from mlautomator.mlautomator import MLAutomator
 
-automator=MLAutomator(x,y,iterations=25)
+automator = MLAutomator(x, y, iterations = 25)
 automator.find_best_algorithm()
 automator.print_best_space()
 ```
