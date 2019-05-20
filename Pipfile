@@ -9,6 +9,7 @@ pandas = "*"
 sklearn = "*"
 hyperopt = "*"
 xgboost = "*"
+pylint = "*"
 
 [dev-packages]
 

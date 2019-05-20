@@ -16,12 +16,14 @@ def get_data(key):
 
     Parameters: 
     -----------
-    key : str
-        The description of the dataset to load. 
+        key : str
+            The description of the dataset to load. 
 
+    Returns:
+    -----------
+        <object> : functional call to the appropriate dataset from sklearn.   
     '''
-
-    library={
+    library = {
         'boston': load_boston(),
         'iris' : load_iris(),
         'diabetes' : load_diabetes(), 

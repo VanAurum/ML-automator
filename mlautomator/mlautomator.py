@@ -1,14 +1,15 @@
 #Standard Python libary imports
 import time 
-import numpy as np
+
+#3rd party imports
+from hyperopt import fmin, tpe, STATUS_OK, Trials
 
 #Local imports
 from mlautomator.objectives.classifier_objectives import Classifiers
 from mlautomator.objectives.regressor_objectives import Regressors
 from mlautomator.search_spaces import get_space
 
-#3rd party imports
-from hyperopt import hp, fmin, tpe, rand, STATUS_OK, Trials
+
 
 
 class MLAutomator:
@@ -22,20 +23,20 @@ class MLAutomator:
 
     Parameters:
     -----------
-    x_train : numpy ndarray
-        The training data that the models will be trained on.
-    y_train : numpy ndarray
-        The target variables for the model.
-    algo_type : str, optional (default='classifier')
-        Accepts 'classifier' or 'regressor'.  
-    score_metric : str, optional (default='accuracy')  
-        The scoring metric that Hyperopt will minimize on.  
-    iterations : int, optional (default=25)
-        The number of trials that Hyperopt will run on each algorithm candidate.
-    num_cv_folds : int, optional (default=10)
-        The number of folds to use in cross validation.
-    repeats : int, optional (default=1)
-        The number of passes to perform on cross validation.
+        x_train : numpy ndarray
+            The training data that the models will be trained on.
+        y_train : numpy ndarray
+            The target variables for the model.
+        algo_type : str, optional (default='classifier')
+            Accepts 'classifier' or 'regressor'.  
+        score_metric : str, optional (default='accuracy')  
+            The scoring metric that Hyperopt will minimize on.  
+        iterations : int, optional (default=25)
+            The number of trials that Hyperopt will run on each algorithm candidate.
+        num_cv_folds : int, optional (default=10)
+            The number of folds to use in cross validation.
+        repeats : int, optional (default=1)
+            The number of passes to perform on cross validation.
     '''
 
     def __init__(
@@ -49,25 +50,25 @@ class MLAutomator:
         repeats=1,
     ):
 
-        self.start_time=None
-        self.count=0
-        self.objective=None
-        self.keys=None
-        self.master_results=[]
-        self.x_train=x_train
-        self.y_train=y_train
-        self.type=algo_type
-        self.score_metric=score_metric
-        self.iterations=iterations
-        self.num_cv_folds=num_cv_folds
-        self.repeats=repeats
-        self.objective=None
+        self.start_time = None
+        self.count = 0
+        self.objective = None
+        self.keys = None
+        self.master_results = []
+        self.x_train = x_train
+        self.y_train = y_train
+        self.type = algo_type
+        self.score_metric = score_metric
+        self.iterations = iterations
+        self.num_cv_folds = num_cv_folds
+        self.repeats = repeats
+        self.objective = None
         self._initialize_best()
-        self.best_space=None
-        self.best_algo=None
-        self.found_best_on=None
-        self.num_features=self.x_train.shape[1]
-        self.num_samples=self.x_train.shape[0]
+        self.best_space = None
+        self.best_algo = None
+        self.found_best_on = None
+        self.num_features = self.x_train.shape[1]
+        self.num_samples = self.x_train.shape[0]
 
 
     def _initialize_best(self):
@@ -76,12 +77,12 @@ class MLAutomator:
         against 'best' to see if the space used in that iteration was superior.  Depending on the scoring metric used, 'best'
         needs to be initialized to different values.
         '''
-        initializer_dict={
+        initializer_dict = {
             'accuracy': 0, 
             'neg_log_loss': 5,
             'neg_mean_squared_error' : 10000000,
         }
-        self.best=initializer_dict[self.score_metric]
+        self.best = initializer_dict[self.score_metric]
         
 
     def get_objective(self,obj):
@@ -94,9 +95,9 @@ class MLAutomator:
         obj - string
             key value representing the ojective function to call.
         '''
-        if self.type=='classifier':
+        if self.type == 'classifier':
         
-            objective_list= {        
+            objective_list = {        
                         '01': Classifiers.objective01,
                         '02': Classifiers.objective02,
                         '03': Classifiers.objective03,
@@ -130,32 +131,32 @@ class MLAutomator:
         space : dictionary 
             subset of total search space selected by Hyperopt.
         '''
-        iter_start=time.time()
+        iter_start = time.time()
         loss, algo = self.objective(self,space)
-        self.count+=1
+        self.count += 1
 
         #time methods for providing analytics on how each iteration is taking.
-        iter_end=round((time.time()-iter_start)/60,3)
-        total_time=round((time.time()-self.start_time)/60,3)
-        avg_time=round((total_time/self.count),3)
+        iter_end = round((time.time()-iter_start)/60, 3)
+        total_time = round((time.time()-self.start_time)/60, 3)
+        avg_time = round((total_time/self.count), 3)
         
         if loss < self.best:  
             self.best = loss
-            self.best_space=space
-            self.best_algo=algo
-            self.found_best_on=self.count
+            self.best_space = space
+            self.best_algo = algo
+            self.found_best_on = self.count
             print('')
             print('new best score:', self.best)
             for key,values in space.items():
-                print(str(key) +' : ' +str(values))
+                print(str(key) + ' : ' + str(values))
             print('')    
             
         else:  
-            str1= 'Scanning '+algo+'.'
-            str2=' No Improvement. Iter time: '+str(iter_end)+'.'
-            str3=' Total Time Elapsed: '+str(total_time)+'.'
-            str4=' AVG Time: '+str(avg_time)
-            print(str1+str2+str3+str4) 
+            str1 = 'Scanning '+algo+'.'
+            str2 =' No Improvement. Iter time: '+str(iter_end)+'.'
+            str3 =' Total Time Elapsed: '+str(total_time)+'.'
+            str4 =' AVG Time: '+str(avg_time)
+            print(str1 + str2 + str3 + str4) 
 
         self.master_results.append([loss,space])
         
@@ -169,8 +170,8 @@ class MLAutomator:
         will intelligently search the search spaces for each algorithm and attempt to minimize (optimize) 
         the scoring function provided.
         '''
-        self.start_time=time.time()
-        objectives=[
+        self.start_time = time.time()
+        objectives = [
             #'01',
             #'02',
             #'03',
@@ -179,17 +180,15 @@ class MLAutomator:
             ]
 
         for obj in objectives:
-            keys=obj
-            self.objective=self.get_objective(obj)
-            seed=np.random.seed(1985)
-            space=obj  
-            trials=Trials()
-            best=fmin(
-                fn=self.f,
-                space=get_space(self, space),
-                algo=tpe.suggest,
-                max_evals=self.iterations,
-                trials=trials,
+            self.objective = self.get_objective(obj)
+            space = obj  
+            trials = Trials()
+            fmin(
+                fn = self.f,
+                space = get_space(self, space),
+                algo = tpe.suggest,
+                max_evals = self.iterations,
+                trials = trials,
             )    
 
 
@@ -198,12 +197,12 @@ class MLAutomator:
         Prints out a report with the best algorithm and its configuration.
         '''
         print('Best Algorithm Configuration:')
-        print('    '+'Best algorithm: '+self.best_algo)
-        print('    '+'Best '+self.score_metric+' : '+str(self.best))
+        print('    ' + 'Best algorithm: '+ self.best_algo)
+        print('    ' + 'Best ' + self.score_metric + ' : ' + str(self.best))
         for key,val in self.best_space.items():
             print('    '+ str(key)+' : '+ str(val), end='\n')                                
-        print('    '+'Found best solution on iteration '+str(self.found_best_on)+' of '+str(self.count)) 
-        print('    '+'Validation used: '+str(self.num_cv_folds)+'-fold cross-validation')          
+        print('    ' + 'Found best solution on iteration '+ str(self.found_best_on) + ' of ' + str(self.count)) 
+        print('    ' + 'Validation used: ' +str(self.num_cv_folds) + '-fold cross-validation')          
 
 
 
