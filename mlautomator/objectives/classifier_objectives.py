@@ -17,8 +17,6 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.feature_selection import SelectKBest, chi2,f_classif
 import warnings
 
-
-
 #Local Imports
 from mlautomator.search_keys import get_keys
 

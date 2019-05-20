@@ -40,33 +40,33 @@ class Regressors:
         '''
         Objective function for XGBoost Regressor.
         '''
-        algo='XGBoost Regressor'
-        X=automator.x_train
-        Y=automator.y_train
+        algo = 'XGBoost Regressor'
+        X = automator.x_train
+        Y = automator.y_train
         
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=get_keys('xgboost_regressor')
-        subspace={k:space[k] for k in set(space).intersection(keys)}
+        keys = get_keys('xgboost_regressor')
+        subspace = {k: space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
         
-        model = XGBRegressor(n_jobs=-1,**subspace)     
-        scaler=space.get('scaler')
-        num_features=space.get('k_best')
+        model = XGBRegressor(n_jobs = -1, **subspace)     
+        scaler = space.get('scaler')
+        num_features = space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
-        pipeline=[]
-        pipeline=Pipeline([
+        pipeline = []
+        pipeline = Pipeline([
             ('scaler', scaler),
-            ('select_best', SelectKBest(k=num_features)),
-            ('classifier',model),
+            ('select_best', SelectKBest(k = num_features)),
+            ('classifier', model),
         ])
         
         #perform cross validation and return the mean score.
-        kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
+        kfold = RepeatedKFold(n_splits = automator.num_cv_folds, n_repeats = automator.repeats)
+        scores = -cross_val_score(pipeline, X, Y, cv = kfold, scoring = automator.score_metric, verbose = False).mean()   
         return scores, algo
 
 
@@ -75,59 +75,59 @@ class Regressors:
         '''
         Objective function for SGD Regressor.
         '''
-        algo='SGD Regressor'
-        X=automator.x_train
-        Y=automator.y_train
+        algo = 'SGD Regressor'
+        X = automator.x_train
+        Y = automator.y_train
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=get_keys('SGDRegressor')   
-        subspace={k:space[k] for k in set(space).intersection(keys)}
+        keys = get_keys('SGDRegressor')   
+        subspace = {k: space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
         model = SGDRegressor(**subspace)   
-        scaler=space.get('scaler')
-        num_features=space.get('k_best')
+        scaler = space.get('scaler')
+        num_features = space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
-        pipeline=[]
-        pipeline=Pipeline([
+        pipeline = []
+        pipeline = Pipeline([
             ('scaler', scaler),
-            ('select_best', SelectKBest(k=num_features)),
-            ('classifier',model),
+            ('select_best', SelectKBest(k = num_features)),
+            ('classifier', model),
         ])
         
         #perform cross validation and return the mean score.
-        kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()     
+        kfold = RepeatedKFold(n_splits = automator.num_cv_folds, n_repeats = automator.repeats)
+        scores = -cross_val_score(pipeline, X, Y, cv = kfold, scoring = automator.score_metric, verbose = False).mean()     
         return scores, algo
 
 
     @staticmethod
-    def objective03(automator,space):
+    def objective03(automator, space):
         '''
         Objective function for Random Forest Regressor.
         '''
-        algo='Random Forest Regressor'
-        X=automator.x_train
-        Y=automator.y_train
+        algo = 'Random Forest Regressor'
+        X = automator.x_train
+        Y = automator.y_train
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=get_keys('RandomForestRegressor')  
-        subspace={k:space[k] for k in set(space).intersection(keys)}
+        keys = get_keys('RandomForestRegressor')  
+        subspace = {k: space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
         model = RandomForestRegressor(**subspace)   
-        scaler=space.get('scaler')
-        num_features=space.get('k_best')
+        scaler = space.get('scaler')
+        num_features = space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
-        pipeline=[]
-        pipeline=Pipeline([
+        pipeline = []
+        pipeline = Pipeline([
             ('scaler', scaler),
-            ('select_best', SelectKBest(k=num_features)),
-            ('classifier',model),
+            ('select_best', SelectKBest(k = num_features)),
+            ('classifier', model),
         ])
         
         #perform two passes of 10-fold cross validation and return the mean score.
@@ -137,76 +137,76 @@ class Regressors:
 
 
     @staticmethod
-    def objective04(automator,space):
+    def objective04(automator, space):
         '''
         Objective function for Support Vector Machines. Note that this method uses a Bagged Classifier 
         as a wrapper for SVC.  Support Vector Machine run time scales by O(N^3).  Using bagged classifiers
         break up the dataset into smaller samples so that runtime is manageable.
         '''
-        algo='Support Vector Machine Regressor'
-        X=automator.x_train
-        Y=automator.y_train
+        algo = 'Support Vector Machine Regressor'
+        X = automator.x_train
+        Y = automator.y_train
 
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=get_keys('SVR')    
-        subspace={k:space[k] for k in set(space).intersection(keys)}
+        keys = get_keys('SVR')    
+        subspace = {k: space[k] for k in set(space).intersection(keys)}
  
         #Build a model with the parameters from our Hyperopt search space.
 
-        n_estimators=space.get('n_estimators')
+        n_estimators = space.get('n_estimators')
         model = BaggingRegressor(
             SVR(**subspace),
-            max_samples=automator.num_samples//n_estimators,
-            n_estimators=n_estimators,
+            max_samples = automator.num_samples // n_estimators,
+            n_estimators = n_estimators,
             )   
 
-        scaler=space.get('scaler')
-        num_features=space.get('k_best')
+        scaler = space.get('scaler')
+        num_features = space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
-        pipeline=[]
-        pipeline=Pipeline([
+        pipeline = []
+        pipeline = Pipeline([
             ('scaler', scaler),
-            ('select_best', SelectKBest(k=num_features)),
-            ('classifier',model),
+            ('select_best', SelectKBest(k = num_features)),
+            ('classifier', model),
         ])
         
         #perform cross validation and return the mean score.
-        kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False, n_jobs=-1).mean()   
+        kfold = RepeatedKFold(n_splits = automator.num_cv_folds, n_repeats = automator.repeats)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring = automator.score_metric, verbose=False, n_jobs=-1).mean()   
         return scores, algo 
 
 
     @staticmethod
-    def objective05(automator,space):
+    def objective05(automator, space):
         '''
         Objective function for K-Nearest Neighbors Voting Regressor.
         '''
-        algo='K-Neighbor Regressor'
-        X=automator.x_train
-        Y=automator.y_train
+        algo = 'K-Neighbor Regressor'
+        X = automator.x_train
+        Y = automator.y_train
 
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
-        keys=get_keys('KNeighborRegressor')    
-        subspace={k:space[k] for k in set(space).intersection(keys)}      
+        keys = get_keys('KNeighborRegressor')    
+        subspace = {k:space[k] for k in set(space).intersection(keys)}      
 
         #Build a model with the parameters from our Hyperopt search space.
         model = KNeighborsRegressor(n_jobs=-1, **subspace)
-        scaler=space.get('scaler')
-        num_features=space.get('k_best')
+        scaler = space.get('scaler')
+        num_features = space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
-        pipeline=[]
-        pipeline=Pipeline([
+        pipeline = []
+        pipeline = Pipeline([
             ('scaler', scaler),
-            ('select_best', SelectKBest(k=num_features)),
-            ('classifier',model),
+            ('select_best', SelectKBest(k = num_features)),
+            ('classifier', model),
         ])
         
         #perform cross validation and return the mean score.
-        kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
+        kfold = RepeatedKFold(n_splits = automator.num_cv_folds, n_repeats = automator.repeats)
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric, verbose=False).mean()   
         return scores, algo   

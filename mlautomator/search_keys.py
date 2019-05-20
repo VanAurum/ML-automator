@@ -88,9 +88,12 @@ def get_keys(algorithm):
     Returns the dictionary of comprehensive search key parameters that Hyperopt will attempt
     to optimize on.  
 
-    Parameters:
-    -----------
-        algorithm : string 
-            The key for the appropriate algorithm search parameters. (i.e, 'xgboost_classidier')
+    Args:
+        algorithm (string): The key for the appropriate algorithm search parameters. 
+            (i.e, 'xgboost_classidier')
+
+    Returns:
+        ALGORITHM_KEYS[algorithm] (dict): dictionary of search parameter keys.
+
     '''
     return ALGORITHM_KEYS[algorithm]
