@@ -65,8 +65,8 @@ Here are the results from the classic iris dataset, a multi-class classification
 from data.utilities import from_sklearn
 from mlautomator.mlautomator import MLAutomator
 
-x,y=from_sklearn('iris')
-automator=MLAutomator(x,y,iterations=30,algo_type='classifier',score_metric='accuracy')
+x, y = from_sklearn('iris')
+automator = MLAutomator(x, y, iterations = 30, algo_type = 'classifier', score_metric = 'accuracy')
 automator.find_best_algorithm()
 automator.print_best_space()
 ```
@@ -96,13 +96,13 @@ ML Automator supports regression problems as well. In this example we call the B
 ```Python
 from data.utilities import from_sklearn
 
-x,y=from_sklearn('boston')
+x, y = from_sklearn('boston')
 ```
 
 ```Python
 from mlautomator.mlautomator import MLAutomator
 
-automator=MLAutomator(x,y,iterations=30,algo_type='regressor',score_metric='neg_mean_squared_error')
+automator = MLAutomator(x, y, iterations = 30, algo_type = 'regressor', score_metric = 'neg_mean_squared_error')
 automator.find_best_algorithm()
 automator.print_best_space()
 ```
