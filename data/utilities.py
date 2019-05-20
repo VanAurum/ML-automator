@@ -20,7 +20,7 @@ def clf_prep(filename=None, target_columns=1, ignore_columns=None):
             the end of the dataframe. The default value takes the last column as the target.
         ignore_columns (list, optional, default=None): A list of column names or indices that 
             you want dropped or ignored during preparation. These columns will not be included in the output.
-            
+
     Returns:
         x_train (numpy ndarray): Training data for the model.
         y_train (numpy ndarray): Target data for the model.   
@@ -40,7 +40,7 @@ def clf_prep(filename=None, target_columns=1, ignore_columns=None):
     target_data = training_data[columns[-target_columns:]]
          
     x_train = feature_data.values
-    y_train = target_data.values
+    y_train = target_data.values.ravel()
     return x_train, y_train
 
 

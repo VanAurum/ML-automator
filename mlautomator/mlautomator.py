@@ -7,9 +7,7 @@ from hyperopt import fmin, tpe, STATUS_OK, Trials
 #Local imports
 from mlautomator.objectives.classifier_objectives import Classifiers
 from mlautomator.objectives.regressor_objectives import Regressors
-from mlautomator.search_spaces import get_space
-
-
+from mlautomator.search_spaces import get_space, classifiers, regressors
 
 
 class MLAutomator:
@@ -30,6 +28,7 @@ class MLAutomator:
         iterations (int, optional, default=25): The number of trials that Hyperopt will run on each algorithm candidate.
         num_cv_folds (int, optional, default=10): The number of folds to use in cross validation.
         repeats (int, optional, default=1): The number of passes to perform on cross validation.
+        specific_algos (list of strings, default=None): A list of objective keys to overide comprehensive search.
 
     Public Attributes:
         start_time (time object): Used to measure elapsed time during training.
@@ -57,6 +56,7 @@ class MLAutomator:
         iterations=25, 
         num_cv_folds=10, 
         repeats=1,
+        specific_algos=None
     ):
 
         self.start_time = None
@@ -78,7 +78,7 @@ class MLAutomator:
         self.found_best_on = None
         self.num_features = self.x_train.shape[1]
         self.num_samples = self.x_train.shape[0]
-
+        self.specific_algos=specific_algos
 
     def _initialize_best(self):
         '''Utility method for properly initializing the 'best' parameter.  
@@ -94,7 +94,6 @@ class MLAutomator:
         }
         self.best = initializer_dict[self.score_metric]
         
-
     def get_objective(self,obj):
         '''A dictionary look-up function that offers a clean way of looping through the objective 
         functions by key and returning the function call.  
@@ -129,7 +128,6 @@ class MLAutomator:
                     }     
 
         return objective_list[obj]
-
 
     def minimize_this(self,space):
         '''This is the "function to be minimized" by hyperopt. 
@@ -170,7 +168,6 @@ class MLAutomator:
         
         return {'loss': loss, 'status': STATUS_OK}
 
-
     def find_best_algorithm(self):   
         '''
         This is the main method call.  It loops through each objective function that is 
@@ -179,14 +176,15 @@ class MLAutomator:
         the scoring function provided.
         '''
         self.start_time = time.time()
-        objectives = [
-            #'01',
-            #'02',
-            #'03',
-            '04',
-            #'05',
-            ]
 
+        #If use provides specific objective list use that. 
+        if self.specific_algos:
+            objectives=self.specific_algos
+        #Otheriwse, retrieve all objective keys from corresponding space.    
+        else:    
+            objectives = self.get_obj_key_list()
+
+        #Pass each objective function to Hyperopt.
         for obj in objectives:
             self.objective = self.get_objective(obj)
             space = obj  
@@ -199,6 +197,14 @@ class MLAutomator:
                 trials = trials,
             )    
 
+    def get_obj_key_list(self):
+        '''Retrieves list of keys from classifier/regressor search spaces.
+        '''
+        if self.type == 'classifier':
+            return classifiers().keys()
+        elif self.type == 'regressor':
+            return regressors().keys()   
+        return []
 
     def print_best_space(self):
         '''

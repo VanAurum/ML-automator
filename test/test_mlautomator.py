@@ -7,8 +7,8 @@ from data.utilities import clf_prep
 
 class TestMLAutomator(unittest.TestCase):
 
-    def setUp(self):
-        self.x, self.y = clf_prep('pima-indians-diabetes.csv')
+    
+    x, y = clf_prep('pima-indians-diabetes.csv')
   
     def test_automator_initialization(self):
         '''

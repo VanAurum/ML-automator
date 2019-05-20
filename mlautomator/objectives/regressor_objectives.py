@@ -160,7 +160,7 @@ class Regressors:
             SVR(**subspace),
             max_samples=automator.num_samples//n_estimators,
             n_estimators=n_estimators,
-            n_jobs=-1)   
+            )   
 
         scaler=space.get('scaler')
         num_features=space.get('k_best')
@@ -175,7 +175,7 @@ class Regressors:
         
         #perform cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
+        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False, n_jobs=-1).mean()   
         return scores, algo 
 
 
