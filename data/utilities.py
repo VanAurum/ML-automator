@@ -10,31 +10,20 @@ from data.data_dict import get_data
 
 
 def clf_prep(filename=None, target_columns=1, ignore_columns=None):
-    '''
-    A utility method for preparing training and target data from a csv file.
+    '''A utility method for preparing training and target data from a csv file.
 
-    Parameters:
-    -----------
-        filename: string 
-            the file name of the dataset to be imported.  This function assumes the
+    Args:
+        filename (string):  the file name of the dataset to be imported.  This function assumes the
             dataset resides in 'data/datasets/'
-
-        target_columns: int, optional (default=1)
-            The number of target columns there (in case it might be one-hot encoded, for example).
-            Method assumes that target columns reside at the end of the dataframe. The default value 
-            takes the last column as the target.
-
-        ignore_columns= list, optional (default=None)    
-            A list of column names or indices that you want dropped or ignored during preparation.  
-            These columns will not be included in the output.
-
+        target_columns (int, optional, default=1): The number of target columns there (in case it 
+            might be one-hot encoded, for example). Method assumes that target columns reside at 
+            the end of the dataframe. The default value takes the last column as the target.
+        ignore_columns (list, optional, default=None): A list of column names or indices that 
+            you want dropped or ignored during preparation. These columns will not be included in the output.
+            
     Returns:
-    ------------
-        x_train : numpy ndarray
-            Training data for the model.
-
-        y_train : numpy ndarray     
-            Target data for the model.   
+        x_train (numpy ndarray): Training data for the model.
+        y_train (numpy ndarray): Target data for the model.   
     '''
 
     #Load data from csv file.  
@@ -56,20 +45,16 @@ def clf_prep(filename=None, target_columns=1, ignore_columns=None):
 
 
 def from_sklearn(key):
-    '''
-    Imports and processes data from sklearn's library of sample datasets into 
+    '''Imports and processes data from sklearn's library of sample datasets into 
     a format digestible by MLAutomator.
 
-    Parameters:
-    -----------
-        key : string
-            The key descripion of the dataset to pull from sklearn. See data_dict module for info
+    Args:
+        key (string): The key descripion of the dataset to pull from sklearn. See data_dict module for info
             on available datasets and their keys.
 
-    Returns: 
-    -----------
-        x_train : numpy ndarray
-        y_train : numpy ndarray
+    Returns:
+        x_train (numpy ndarray): Training data for the model.
+        y_train (numpy ndarray): Target data for the model.   
     '''
     data = get_data(key)
     dataframe = pd.DataFrame(data.data)

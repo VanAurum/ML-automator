@@ -12,7 +12,7 @@ Machine Learning Automator ('ML Automator' for short) is an automation project t
 
 ## Usage 
 
-__MLAutomator__ accepts a training dataset X, and a target Y.  The user can define their own functions for how these datasets are produced.  Note that MLAutomator is designed to be a highly optimized spot-checking algorithm - you should take care to make sure you data is free from errors, and any missing values have been dealth with.   
+__MLAutomator__ accepts a training dataset X, and a target Y.  The user can define their own functions for how these datasets are produced.  Note that MLAutomator is designed to be a highly optimized spot-checking algorithm - you should take care to make sure you data is free from errors, and any missing values have been dealt with.   
 
 MLAutomator will find ways of transforming and pre-processing your data to produce a superior model.  Feel free to make your own transformations before passing the data to MLAutomator.  
 

@@ -13,30 +13,39 @@ from mlautomator.search_spaces import get_space
 
 
 class MLAutomator:
-    '''
-    MLAutomator leverages the intelligent search properties of Hyperopt to reduce hyperparameter tuning times
-    across large hyperparameter search spaces.  This extra time allows you to spot-check a larger cross section 
-    of algorithms on your dataset.  
+    '''A tool for automating the algorithm tuning process in data science applications.
+
+    MLAutomator leverages the intelligent search properties of Hyperopt to reduce 
+    hyperparameter tuning times across large hyperparameter search spaces.  This extra 
+    time allows you to spot-check a larger cross section of algorithms on your dataset.  
 
     MLAutomator does not perform predictions, its sole function is to find the optimal pre-processors, features, and 
     hyperparameters.
 
-    Parameters:
-    -----------
-        x_train : numpy ndarray
-            The training data that the models will be trained on.
-        y_train : numpy ndarray
-            The target variables for the model.
-        algo_type : str, optional (default='classifier')
-            Accepts 'classifier' or 'regressor'.  
-        score_metric : str, optional (default='accuracy')  
-            The scoring metric that Hyperopt will minimize on.  
-        iterations : int, optional (default=25)
-            The number of trials that Hyperopt will run on each algorithm candidate.
-        num_cv_folds : int, optional (default=10)
-            The number of folds to use in cross validation.
-        repeats : int, optional (default=1)
-            The number of passes to perform on cross validation.
+    Args:
+        x_train (numpy ndarray): The training data that the models will be trained on.
+        y_train (numpy ndarray): The target variables for the model.
+        algo_type (str, optional, default='classifier'): Accepts 'classifier' or 'regressor'.  
+        score_metric (str, optional, default='accuracy'): The scoring metric that Hyperopt will minimize on.  
+        iterations (int, optional, default=25): The number of trials that Hyperopt will run on each algorithm candidate.
+        num_cv_folds (int, optional, default=10): The number of folds to use in cross validation.
+        repeats (int, optional, default=1): The number of passes to perform on cross validation.
+
+    Public Attributes:
+        start_time (time object): Used to measure elapsed time during training.
+        count (int): A count of the total number of search space permutations analyzes.
+        master_results (list): A history of all search spaces and their results.
+        x_train (numpy ndarray): The training data passed to MLAutomator.
+        y_train (numpy ndarray): The target data passed to MLAutomator.
+        type (string): The type of model being built - classifier or regressor.
+        score_metric (string): The score metric models are being optimized on.
+        iterations (int): The number of iterations to perform on each objective function.
+        num_cv_folds (int): The number of folds to use in cross validation.
+        repeats (int): The number of repeats to perform in cross-validations.
+        best_space (dict): The best search space discovered in the optimization process.
+        best_algo (string): The description of the top performing algorithm.
+        num_features (int): The number of features in the training data.
+        num_samples (int): The number of samples in the training (and target) data.     
     '''
 
     def __init__(
@@ -72,10 +81,11 @@ class MLAutomator:
 
 
     def _initialize_best(self):
-        '''
-        Utility method for properly initializing the 'best' parameter.  After each iteration, the score will be checked
-        against 'best' to see if the space used in that iteration was superior.  Depending on the scoring metric used, 'best'
-        needs to be initialized to different values.
+        '''Utility method for properly initializing the 'best' parameter.  
+        
+        After each iteration, the score will be checked
+        against 'best' to see if the space used in that iteration was superior.  Depending on the scoring 
+        metric used, 'best' needs to be initialized to different values.
         '''
         initializer_dict = {
             'accuracy': 0, 
@@ -86,17 +96,17 @@ class MLAutomator:
         
 
     def get_objective(self,obj):
-        '''
-        A dictionary look-up function that offers a clean way of looping through the objective 
+        '''A dictionary look-up function that offers a clean way of looping through the objective 
         functions by key and returning the function call.  
 
-        Parameters: 
-        ----------
-        obj - string
-            key value representing the ojective function to call.
+        Args:
+            obj (string): Key value representing the ojective function to call.
+
+        Returns:
+            <objective_list[obj]> (function call): A call to the appropriate objective function.    
         '''
         if self.type == 'classifier':
-        
+
             objective_list = {        
                         '01': Classifiers.objective01,
                         '02': Classifiers.objective02,
@@ -105,8 +115,8 @@ class MLAutomator:
                         '05': Classifiers.objective05,
                         '06': Classifiers.objective06,
                         '07': Classifiers.objective07,
-                    }
-        
+                    }   
+
         else:  
 
             objective_list= {        
@@ -116,20 +126,18 @@ class MLAutomator:
                         '04': Regressors.objective04,
                         '05': Regressors.objective05,
 
-                    }            
+                    }     
 
         return objective_list[obj]
 
 
-    def f(self,space):
-        '''
-        This is the "function to be minimized" by hyperopt. This gets passed to the fmin function 
-        within the method find_best_algorithm.
+    def minimize_this(self,space):
+        '''This is the "function to be minimized" by hyperopt. 
+        
+        This gets passed to the fmin function within the method find_best_algorithm.
 
-        Parameters: 
-        -----------
-        space : dictionary 
-            subset of total search space selected by Hyperopt.
+        Args:
+            space (dict): Subset of total search space selected by Hyperopt.
         '''
         iter_start = time.time()
         loss, algo = self.objective(self,space)
@@ -184,7 +192,7 @@ class MLAutomator:
             space = obj  
             trials = Trials()
             fmin(
-                fn = self.f,
+                fn = self.minimize_this,
                 space = get_space(self, space),
                 algo = tpe.suggest,
                 max_evals = self.iterations,

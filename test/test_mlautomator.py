@@ -27,12 +27,4 @@ class TestMLAutomator(unittest.TestCase):
         self.assertEqual(automator.num_cv_folds,10)
         self.assertEqual(automator.repeats,1)
 
-    def test_clf_prep(self):
-        pass
-        
-
-
-#if __name__=='__main__':
-#    suite = unittest.defaultTestLoader.loadTestsFromTestCase(TestMLAutomator)
-#    unittest.TextTestRunner(verbosity=2).run(suite)
 
