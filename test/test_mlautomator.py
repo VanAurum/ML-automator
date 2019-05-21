@@ -3,7 +3,7 @@ import unittest
 
 #Local imports
 from mlautomator.mlautomator import MLAutomator
-from mlautomator.search_spaces import classifiers, regressors
+from mlautomator.search_spaces import classifiers, regressors, get_space
 from mlautomator.search_keys import get_keys, ALGORITHM_KEYS
 from data.utilities import clf_prep
 
@@ -38,3 +38,11 @@ class TestMLAutomator(unittest.TestCase):
         for key in ALGORITHM_KEYS.keys():
             self.assertIsNotNone(get_keys(key))
             print(get_keys(key))    
+
+    def test_get_space_regressors(self):
+        for key in regressors().keys():
+            self.assertIsNotNone(get_space(self.automator, key))        
+
+    def test_get_space_classifiers(self):
+        for key in classifiers().keys():
+            self.assertIsNotNone(get_space(self.automator, key))     
