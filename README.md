@@ -1,7 +1,7 @@
 # ML Automator
 #### Author: Kevin Vecmanis
 
-Machine Learning Automator ('ML Automator' for short) is an automation project that integrates __Sequential Model Based Optimization__ (SMBO) with the main learning algorithms from Python's Sci-kit Learn library to generate a really fast, automated tool for tuning machine learning algorithms.  MLAutomator leverages a library called Hyperopt to accomplish this. [Read more about Hyperopt here](http://hyperopt.github.io/hyperopt/)
+Machine Learning Automator (__ML Automator__) is an automation project that integrates __Sequential Model Based Optimization__ (SMBO) with the main learning algorithms from Python's Sci-kit Learn library to generate a really fast, automated tool for tuning machine learning algorithms.  __MLAutomator__ leverages a library called Hyperopt to accomplish this. [Read more about Hyperopt here](http://hyperopt.github.io/hyperopt/)
 
 ## What is SMBO? 
 
@@ -21,9 +21,9 @@ The trade-off here is that SMBO models spend more time between each iteration "s
 
 ## Usage 
 
-__MLAutomator__ accepts a training dataset X, and a target Y.  The user can define their own functions for how these datasets are produced.  Note that MLAutomator is designed to be a highly optimized spot-checking algorithm - you should take care to make sure you data is free from errors, and any missing values have been dealt with.   
+__MLAutomator__ accepts a training dataset X, and a target Y.  The user can define their own functions for how these datasets are produced.  Note that MLAutomator is designed to be a highly optimized spot-checking algorithm - you should take care to make sure your data is free from errors and any missing values have been dealt with.   
 
-MLAutomator will find ways of transforming and pre-processing your data to produce a superior model.  Feel free to make your own transformations before passing the data to MLAutomator.  
+__MLAutomator__ will find ways of transforming and pre-processing your data to produce a superior model.  Feel free to make your own transformations before passing the data to __MLAutomator__.  
 
 ### Optional data utilities
 
@@ -47,7 +47,7 @@ automator.find_best_algorithm()
 automator.print_best_space()
 ```
 
-MLAutomator can typically find a ~98th percentile solution in a fraction of the time of Gridsearch of Randomized search.  Here it did a comprehensive scan across all hyperparameters for 6 common machine learning algorithms and produced exceptional model performance for the classic Pima Indians Diabetes dataset.
+__MLAutomator__ can typically find a ~ 98th percentile solution in a fraction of the time of __Gridsearch or Randomized search__.  Here it did a comprehensive scan across all hyperparameters for 6 common machine learning algorithms and produced exceptional model performance for the classic Pima Indians Diabetes dataset.
 
 ```
 Best Algorithm Configuration:
