@@ -128,3 +128,25 @@ Best Algorithm Configuration:
     Found best solution on iteration 24 of 30
     Validation used: 10-fold cross-validation
 ```
+
+## Existing Algorithm Support
+
+__MLAutomator__ currently supports the following algorithms:
+
+### Classification:
+* XGBoost Classifier
+* Random Forest Classifier
+* Support Vector Machines
+* Naive Bayes Classifier
+* Stochastic Gradient Descent Classification (SGD)
+* K-Nearest Neighbors Classification
+* Logistic Regression 
+
+### Regression: 
+* XGBoost Regressor
+* Random Forest Regressor
+* Support Vector Machine Regression
+* SGD Regression
+* K-Nearest Neighbors Regression
+
+Unless otherwise declared using the __specific_algos__ argument, MLAutomator will scan all algorithms to find the best performer.
