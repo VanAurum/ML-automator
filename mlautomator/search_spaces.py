@@ -17,7 +17,7 @@ N_COMPONENTS = np.round(np.arange(0.1, 0.99, 0.01), 5)
 
 def classifiers(**kwargs):
 
-    k_best = kwargs.get('k_best', None)
+    k_best=kwargs.get('k_best', [3])
 
     CLASSIFIER_SPACES = {
                 #XGBoost Classifier search space.
@@ -110,7 +110,7 @@ def regressors(**kwargs):
     algorithm dependent.  
     '''
 
-    k_best=kwargs.get('k_best', None)
+    k_best=kwargs.get('k_best', [3])
 
     REGRESSION_SPACES={
                 #XGBoost Regressor search space.
