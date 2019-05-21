@@ -68,7 +68,14 @@ class Classifiers:
         
         #perform cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
+
+        try:
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+        except ValueError:
+            print('An error occurred with the following space: ')
+            print(space)
+            return automator.best, algo    
+
         return scores, algo
 
 
@@ -101,7 +108,14 @@ class Classifiers:
         
         #perform cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()     
+
+        try:
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+        except ValueError:
+            print('An error occurred with the following space: ')
+            print(space)
+            return automator.best, algo       
+
         return scores, algo
 
 
@@ -134,7 +148,14 @@ class Classifiers:
         
         #perform two passes of 10-fold cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=10, n_repeats=1)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring='accuracy',verbose=False).mean()
+
+        try:
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+        except ValueError:
+            print('An error occurred with the following space: ')
+            print(space)
+            return automator.best, algo    
+
         return scores, algo
 
 
@@ -212,7 +233,14 @@ class Classifiers:
         
         #perform cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
+
+        try:
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+        except ValueError:
+            print('An error occurred with the following space: ')
+            print(space)
+            return automator.best, algo    
+
         return scores, algo
 
 
@@ -245,7 +273,14 @@ class Classifiers:
         
         #perform cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
+
+        try:
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+        except ValueError:
+            print('An error occurred with the following space: ')
+            print(space)
+            return automator.best, algo    
+
         return scores, algo        
 
 
@@ -278,5 +313,12 @@ class Classifiers:
         
         #perform cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
-        scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()   
+
+        try:
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+        except ValueError:
+            print('An error occurred with the following space: ')
+            print(space)
+            return automator.best, algo    
+            
         return scores, algo   

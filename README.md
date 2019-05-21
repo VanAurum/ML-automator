@@ -1,7 +1,16 @@
 # ML Automator
 #### Author: Kevin Vecmanis
 
-Machine Learning Automator ('ML Automator' for short) is an automation project that integrates the Hyperopt asynchronous optimization engine with the main learning algorithms from Python's Sci-kit Learn to generate a really fast, automated tool for tuning machine learning algorithms.  [Read more about Hyperopt here](http://hyperopt.github.io/hyperopt/)
+Machine Learning Automator ('ML Automator' for short) is an automation project that integrates __Sequential Model Based Optimization__ (SMBO) with the main learning algorithms from Python's Sci-kit Learn library to generate a really fast, automated tool for tuning machine learning algorithms.  MLAutomator leverages a library called Hyperopt to accomplish this. [Read more about Hyperopt here](http://hyperopt.github.io/hyperopt/)
+
+## What is SMBO? 
+
+SMBO is a form of hyperparameter tuning, like grid search and randomized search.  In contrast to grid and randomized search, however, SMBO used __Bayesian Optimization__ to build a probability model, through trial and error, that is able to better predict what hyperparameters might produce a better model.  The "sequential" just means that multiple trials are run, one after another, each time testing better hyper parameters by applying bayesion reasoning and updating the existing probability model.
+
+The trade-off here is that SMBO models spend more time between each iteration "selecting" the next choice of hyperparameters - but this is accepted because the extra time taken to choose the next hyperparameters is typically __signigicantly__ less than each training iteration.  In other words, SMBO results in:
+
+* Reduced time tuning hyperparameters compared to grid and random search methods.
+* Better scores on the testing set.
 
 ## Key features:
 
