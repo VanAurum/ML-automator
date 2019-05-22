@@ -141,11 +141,13 @@ class MLAutomator:
         loss, algo = self.objective(self, space)
         self.count += 1
 
-        #time methods for providing analytics on how each iteration is taking.
+        # time methods for providing analytics on how each iteration is taking.
         iter_end = round((time.time()-iter_start)/60, 3)
         total_time = round((time.time()-self.start_time) / 60, 3)
         avg_time = round((total_time / self.count), 3)
         
+        # If current loss is better than the best score reset best space, 
+        # best score, and best algorithm.
         if loss < self.best:  
             self.best = loss
             self.best_space = space

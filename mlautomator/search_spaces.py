@@ -17,6 +17,7 @@ N_COMPONENTS = np.round(np.arange(0.1, 0.99, 0.01), 5)
 
 def classifiers(**kwargs):
 
+    # If there variable parameters to set they get passed through kwargs.
     k_best=kwargs.get('k_best', [3])
 
     CLASSIFIER_SPACES = {
@@ -33,7 +34,6 @@ def classifiers(**kwargs):
                             'k_best': hp.choice('x_k_best', k_best),
                             'n_components': hp.choice('x_n_comps', N_COMPONENTS),
                             'scaler': hp.choice('x_scale', SCALER_LIST)
-                            
                             },        
             
                 #SGD Classifier search space    
@@ -80,7 +80,6 @@ def classifiers(**kwargs):
                             'scaler': hp.choice('x_scale', SCALER_LIST)                    
                             },      
 
-
                 #LogisticRegression
                 '06':       {
                             'penalty': hp.choice('x_penalty', ['l1','l2']),
@@ -110,6 +109,7 @@ def regressors(**kwargs):
     algorithm dependent.  
     '''
 
+    # If there variable parameters to set they get passed through kwargs.
     k_best=kwargs.get('k_best', [3])
 
     REGRESSION_SPACES={
@@ -126,7 +126,6 @@ def regressors(**kwargs):
                             'k_best': hp.choice('x_k_best', k_best),
                             'n_components': hp.choice('x_n_comps', N_COMPONENTS),
                             'scaler': hp.choice('x_scale', SCALER_LIST)
-                            
                             },        
             
                 #SGD Regressor search space    
@@ -165,7 +164,6 @@ def regressors(**kwargs):
                             'k_best': hp.choice('x_k_best', k_best),
                             'scaler': hp.choice('x_scale', SCALER_LIST)                    
                             },
-
 
                 #KNearestNeighbor Regressor search space
                 '05':       {
