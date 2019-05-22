@@ -59,18 +59,18 @@ class Classifiers:
         num_features = space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
-        pipeline=[]
-        pipeline=Pipeline([
+        pipeline = []
+        pipeline = Pipeline([
             ('scaler', scaler),
-            ('select_best', SelectKBest(k=num_features)),
-            ('classifier',model),
+            ('select_best', SelectKBest(k = num_features)),
+            ('classifier', model),
         ])
         
         #perform cross validation and return the mean score.
-        kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
+        kfold = RepeatedKFold(n_splits = automator.num_cv_folds, n_repeats = automator.repeats)
 
         try:
-            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring = automator.score_metric, verbose=False).mean()  
         except ValueError:
             print('An error occurred with the following space: ')
             print(space)
@@ -84,33 +84,33 @@ class Classifiers:
         '''
         Objective function for SGD Classifier.
         '''
-        algo='SGD Classifier'
-        X=automator.x_train
-        Y=automator.y_train
+        algo = 'SGD Classifier'
+        X = automator.x_train
+        Y = automator.y_train
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=get_keys('SGDClassifier')   
-        subspace={k:space[k] for k in set(space).intersection(keys)}
+        keys = get_keys('SGDClassifier')   
+        subspace = {k:space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
-        model = SGDClassifier(n_jobs=-1,**subspace)   
-        scaler=space.get('scaler')
-        num_features=space.get('k_best')
+        model = SGDClassifier(n_jobs=-1, **subspace)   
+        scaler = space.get('scaler')
+        num_features = space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
-        pipeline=[]
-        pipeline=Pipeline([
+        pipeline = []
+        pipeline = Pipeline([
             ('scaler', scaler),
             ('select_best', SelectKBest(k=num_features)),
-            ('classifier',model),
+            ('classifier', model),
         ])
         
         #perform cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
 
         try:
-            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric, verbose=False).mean()  
         except ValueError:
             print('An error occurred with the following space: ')
             print(space)
@@ -124,23 +124,23 @@ class Classifiers:
         '''
         Objective function for Random Forest Classifier.
         '''
-        algo='Random Forest Classifier'
-        X=automator.x_train
-        Y=automator.y_train
+        algo = 'Random Forest Classifier'
+        X = automator.x_train
+        Y = automator.y_train
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=get_keys('RandomForestClassifier')  
-        subspace={k:space[k] for k in set(space).intersection(keys)}
+        keys = get_keys('RandomForestClassifier')  
+        subspace = {k:space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
         model = RandomForestClassifier(**subspace)   
-        scaler=space.get('scaler')
-        num_features=space.get('k_best')
+        scaler = space.get('scaler')
+        num_features = space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
-        pipeline=[]
-        pipeline=Pipeline([
+        pipeline = []
+        pipeline = Pipeline([
             ('scaler', scaler),
             ('select_best', SelectKBest(k=num_features)),
             ('classifier',model),
