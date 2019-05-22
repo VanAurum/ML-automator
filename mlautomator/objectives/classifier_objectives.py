@@ -42,21 +42,21 @@ class Classifiers:
         '''
         Objective function for XGBoost Classifier.
         '''
-        algo='XGBoost Classifier'
-        X=automator.x_train
-        Y=automator.y_train
+        algo = 'XGBoost Classifier'
+        X = automator.x_train
+        Y = automator.y_train
         
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=get_keys('xgboost_classifier')
-        subspace={k:space[k] for k in set(space).intersection(keys)}
+        keys = get_keys('xgboost_classifier')
+        subspace = {k:space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
         
-        model = XGBClassifier(n_jobs=-1,**subspace)     
-        scaler=space.get('scaler')
-        num_features=space.get('k_best')
+        model = XGBClassifier(n_jobs=-1, **subspace)     
+        scaler = space.get('scaler')
+        num_features = space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
         pipeline=[]
