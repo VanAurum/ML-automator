@@ -150,7 +150,7 @@ class Classifiers:
         kfold = RepeatedKFold(n_splits=10, n_repeats=1)
 
         try:
-            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric, verbose=False).mean()  
         except ValueError:
             print('An error occurred with the following space: ')
             print(space)
@@ -166,41 +166,41 @@ class Classifiers:
         as a wrapper for SVC.  Support Vector Machine run time scales by O(N^3).  Using bagged classifiers
         break up the dataset into smaller samples so that runtime is manageable.
         '''
-        algo='Bag of Support Vector Machine Classifiers'
-        X=automator.x_train
-        Y=automator.y_train
+        algo = 'Bag of Support Vector Machine Classifiers'
+        X = automator.x_train
+        Y = automator.y_train
 
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys=get_keys('SVC')    
-        subspace={k:space[k] for k in set(space).intersection(keys)}
+        keys = get_keys('SVC')    
+        subspace = {k:space[k] for k in set(space).intersection(keys)}
  
         #Build a model with the parameters from our Hyperopt search space.
 
-        n_estimators=space.get('n_estimators')
+        n_estimators = space.get('n_estimators')
         model = BaggingClassifier(
-            SVC(probability=True,**subspace),
-            max_samples=automator.num_samples//n_estimators,
-            n_estimators=n_estimators,
-            n_jobs=-1)   
+            SVC(probability=True, **subspace),
+            max_samples=automator.num_samples // n_estimators,
+            n_estimators = n_estimators,
+            n_jobs = -1)   
 
-        scaler=space.get('scaler')
-        num_features=space.get('k_best')
+        scaler = space.get('scaler')
+        num_features = space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
-        pipeline=[]
-        pipeline=Pipeline([
+        pipeline = []
+        pipeline = Pipeline([
             ('scaler', scaler),
-            ('select_best', SelectKBest(k=num_features)),
-            ('classifier',model),
+            ('select_best', SelectKBest(k = num_features)),
+            ('classifier', model),
         ])
         
         #perform cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
 
         try:
-            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric, verbose=False).mean()  
         except ValueError:
             print('An error occurred with the following space: ')
             print(space)
@@ -214,28 +214,28 @@ class Classifiers:
         '''
         Objective function for Naive Bayes
         '''
-        algo='GaussianNB'
-        X=automator.x_train
-        Y=automator.y_train
+        algo = 'GaussianNB'
+        X = automator.x_train
+        Y = automator.y_train
 
         #Build a model with the parameters from our Hyperopt search space.
         model = GaussianNB()
-        scaler=space.get('scaler')
-        num_features=space.get('k_best')
+        scaler = space.get('scaler')
+        num_features = space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
-        pipeline=[]
-        pipeline=Pipeline([
+        pipeline = []
+        pipeline = Pipeline([
             ('scaler', scaler),
             ('select_best', SelectKBest(k=num_features)),
-            ('classifier',model),
+            ('classifier', model),
         ])
         
         #perform cross validation and return the mean score.
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
 
         try:
-            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric, verbose=False).mean()  
         except ValueError:
             print('An error occurred with the following space: ')
             print(space)
@@ -249,17 +249,17 @@ class Classifiers:
         '''
         Objective function for Logistic Regression.
         '''
-        algo='Logistic Regression'
-        X=automator.x_train
-        Y=automator.y_train
+        algo = 'Logistic Regression'
+        X = automator.x_train
+        Y = automator.y_train
 
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
-        keys=get_keys('LogisticRegression')    
-        subspace={k:space[k] for k in set(space).intersection(keys)}      
+        keys = get_keys('LogisticRegression')    
+        subspace = {k:space[k] for k in set(space).intersection(keys)}      
 
         #Build a model with the parameters from our Hyperopt search space.
-        model = LogisticRegression()
+        model = LogisticRegression(**subspace)
         scaler=space.get('scaler')
         num_features=space.get('k_best')
         
@@ -275,7 +275,7 @@ class Classifiers:
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
 
         try:
-            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric, verbose=False).mean()  
         except ValueError:
             print('An error occurred with the following space: ')
             print(space)
@@ -289,23 +289,23 @@ class Classifiers:
         '''
         Objective function for K-Nearest Neighbors Voting Classifier.
         '''
-        algo='K-Neighbor Classifier'
-        X=automator.x_train
-        Y=automator.y_train
+        algo = 'K-Neighbor Classifier'
+        X = automator.x_train
+        Y = automator.y_train
 
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
-        keys=get_keys('KNeighborClassifier')    
-        subspace={k:space[k] for k in set(space).intersection(keys)}      
+        keys = get_keys('KNeighborClassifier')    
+        subspace = {k:space[k] for k in set(space).intersection(keys)}      
 
         #Build a model with the parameters from our Hyperopt search space.
         model = KNeighborsClassifier(n_jobs=-1, **subspace)
-        scaler=space.get('scaler')
-        num_features=space.get('k_best')
+        scaler = space.get('scaler')
+        num_features = space.get('k_best')
         
         #Assemble a data pipeline with the extracted data preprocessing keys.
-        pipeline=[]
-        pipeline=Pipeline([
+        pipeline = []
+        pipeline = Pipeline([
             ('scaler', scaler),
             ('select_best', SelectKBest(k=num_features)),
             ('classifier',model),
@@ -315,7 +315,7 @@ class Classifiers:
         kfold = RepeatedKFold(n_splits=automator.num_cv_folds, n_repeats=automator.repeats)
 
         try:
-            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric,verbose=False).mean()  
+            scores = -cross_val_score(pipeline, X, Y, cv=kfold, scoring=automator.score_metric, verbose=False).mean()  
         except ValueError:
             print('An error occurred with the following space: ')
             print(space)
