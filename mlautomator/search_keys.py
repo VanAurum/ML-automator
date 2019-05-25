@@ -90,7 +90,7 @@ def get_keys(algorithm):
 
     Args:
         algorithm (string): The key for the appropriate algorithm search parameters. 
-            (i.e, 'xgboost_classidier')
+            (i.e, 'xgboost_classifier')
 
     Returns:
         ALGORITHM_KEYS[algorithm] (dict): dictionary of search parameter keys.
