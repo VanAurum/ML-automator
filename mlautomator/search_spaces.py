@@ -32,8 +32,7 @@ def classifiers(**kwargs):
                             'colsample_bytree': hp.choice('x_colsample_bytree', np.round(np.arange(0.1,1.0,0.01),5)),
                             'n_estimators': hp.choice('x_n_estimators', np.arange(25,850,1)),
                             'k_best': hp.choice('x_k_best', k_best),
-                            'n_components': hp.choice('x_n_comps', N_COMPONENTS),
-                            'scaler': hp.choice('x_scale', SCALER_LIST)
+                            'scaler': hp.choice('x_scale', SCALER_LIST),
                             },        
             
                 #SGD Classifier search space    
@@ -44,7 +43,7 @@ def classifiers(**kwargs):
                             'max_iter': hp.choice('x_max_iter', np.arange(5,1000,1)),
                             'k_best': hp.choice('x_k_best', k_best),
                             'n_components': hp.choice('x_n_comps', N_COMPONENTS),
-                            'scaler': hp.choice('x_scale', SCALER_LIST)
+                            'scaler': hp.choice('x_scale', SCALER_LIST),
                             },
                         
                 #Random Forest search space        

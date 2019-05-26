@@ -80,7 +80,8 @@ ALGORITHM_KEYS = {
         'n_neighbors',
         'weights',
         'algorithm',
-        ),                            
+        ),    
+    'GaussianNB': (),                            
 }
 
 def get_keys(algorithm):

@@ -1,5 +1,7 @@
 #Standard Python libary imports
-import time 
+import time
+from sklearn.pipeline import Pipeline 
+from sklearn.feature_selection import SelectKBest
 
 #3rd party imports
 from hyperopt import fmin, tpe, STATUS_OK, Trials
@@ -8,6 +10,7 @@ from hyperopt import fmin, tpe, STATUS_OK, Trials
 from mlautomator.objectives.classifier_objectives import Classifiers
 from mlautomator.objectives.regressor_objectives import Regressors
 from mlautomator.search_spaces import get_space, classifiers, regressors
+from mlautomator.get_model import get_model
 
 
 class MLAutomator:
@@ -64,8 +67,8 @@ class MLAutomator:
         self.objective = None
         self.keys = None
         self.master_results = []
-        self.x_train = x_train
-        self.y_train = y_train
+        self.x_train = x_train.copy()
+        self.y_train = y_train.copy()
         self.type = algo_type
         self.score_metric = score_metric
         self.iterations = iterations
@@ -222,4 +225,20 @@ class MLAutomator:
 
 
 
+    def save_best_model(self):
+        pass
+
+
+    def fit_best_model(self):
+        print('\n')
+        print('Fitting best model...')    
+        k_best=self.best_space['k_best']
+        scaler=self.best_space['scaler']
+        model = get_model(self.best_algo, self.best_space)
+        print(model.get_params)
+        X_scaled = scaler.fit_transform(self.x_train)
+        X_new = SelectKBest(k = k_best).fit_transform(X_scaled, self.y_train)
+        self.fit_model = model.fit(X_new, self.y_train)
+        print('Completed fitting the model on entire dataset with optimal parameters')
+     
     

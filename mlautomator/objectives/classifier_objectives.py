@@ -42,14 +42,14 @@ class Classifiers:
         '''
         Objective function for XGBoost Classifier.
         '''
-        algo = 'XGBoost Classifier'
+        algo = 'xgboost_classifier'
         X = automator.x_train
         Y = automator.y_train
         
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys = get_keys('xgboost_classifier')
+        keys = get_keys(algo)
         subspace = {k:space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
@@ -84,13 +84,13 @@ class Classifiers:
         '''
         Objective function for SGD Classifier.
         '''
-        algo = 'SGD Classifier'
+        algo = 'SGDClassifier'
         X = automator.x_train
         Y = automator.y_train
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys = get_keys('SGDClassifier')   
+        keys = get_keys(algo)   
         subspace = {k:space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
@@ -124,13 +124,13 @@ class Classifiers:
         '''
         Objective function for Random Forest Classifier.
         '''
-        algo = 'Random Forest Classifier'
+        algo = 'RandomForestClassifier'
         X = automator.x_train
         Y = automator.y_train
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys = get_keys('RandomForestClassifier')  
+        keys = get_keys(algo)  
         subspace = {k:space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
@@ -166,14 +166,14 @@ class Classifiers:
         as a wrapper for SVC.  Support Vector Machine run time scales by O(N^3).  Using bagged classifiers
         break up the dataset into smaller samples so that runtime is manageable.
         '''
-        algo = 'Bag of Support Vector Machine Classifiers'
+        algo = 'SVC'
         X = automator.x_train
         Y = automator.y_train
 
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys = get_keys('SVC')    
+        keys = get_keys(algo)    
         subspace = {k:space[k] for k in set(space).intersection(keys)}
  
         #Build a model with the parameters from our Hyperopt search space.
@@ -249,13 +249,13 @@ class Classifiers:
         '''
         Objective function for Logistic Regression.
         '''
-        algo = 'Logistic Regression'
+        algo = 'LogisticRegression'
         X = automator.x_train
         Y = automator.y_train
 
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
-        keys = get_keys('LogisticRegression')    
+        keys = get_keys(algo)    
         subspace = {k:space[k] for k in set(space).intersection(keys)}      
 
         #Build a model with the parameters from our Hyperopt search space.
@@ -289,13 +289,13 @@ class Classifiers:
         '''
         Objective function for K-Nearest Neighbors Voting Classifier.
         '''
-        algo = 'K-Neighbor Classifier'
+        algo = 'KNeighborClassifier'
         X = automator.x_train
         Y = automator.y_train
 
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
-        keys = get_keys('KNeighborClassifier')    
+        keys = get_keys(algo)    
         subspace = {k:space[k] for k in set(space).intersection(keys)}      
 
         #Build a model with the parameters from our Hyperopt search space.

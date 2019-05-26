@@ -40,14 +40,14 @@ class Regressors:
         '''
         Objective function for XGBoost Regressor.
         '''
-        algo = 'XGBoost Regressor'
+        algo = 'xgboost_regressor'
         X = automator.x_train
         Y = automator.y_train
         
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys = get_keys('xgboost_regressor')
+        keys = get_keys(algo)
         subspace = {k: space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
@@ -75,13 +75,13 @@ class Regressors:
         '''
         Objective function for SGD Regressor.
         '''
-        algo = 'SGD Regressor'
+        algo = 'SGDRegressor'
         X = automator.x_train
         Y = automator.y_train
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys = get_keys('SGDRegressor')   
+        keys = get_keys(algo)   
         subspace = {k: space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
@@ -108,13 +108,13 @@ class Regressors:
         '''
         Objective function for Random Forest Regressor.
         '''
-        algo = 'Random Forest Regressor'
+        algo = 'RandomForestRegressor'
         X = automator.x_train
         Y = automator.y_train
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys = get_keys('RandomForestRegressor')  
+        keys = get_keys(algo)  
         subspace = {k: space[k] for k in set(space).intersection(keys)}
         
         #Extract the remaining keys that are pertinent to data preprocessing.
@@ -143,14 +143,14 @@ class Regressors:
         as a wrapper for SVC.  Support Vector Machine run time scales by O(N^3).  Using bagged classifiers
         break up the dataset into smaller samples so that runtime is manageable.
         '''
-        algo = 'Support Vector Machine Regressor'
+        algo = 'SVR'
         X = automator.x_train
         Y = automator.y_train
 
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
         
-        keys = get_keys('SVR')    
+        keys = get_keys(algo)    
         subspace = {k: space[k] for k in set(space).intersection(keys)}
  
         #Build a model with the parameters from our Hyperopt search space.
@@ -184,13 +184,13 @@ class Regressors:
         '''
         Objective function for K-Nearest Neighbors Voting Regressor.
         '''
-        algo = 'K-Neighbor Regressor'
+        algo = 'KNeighborRegressor'
         X = automator.x_train
         Y = automator.y_train
 
         #Define the subset of dictionary keys that should get passed to the machine learning
         #algorithm.
-        keys = get_keys('KNeighborRegressor')    
+        keys = get_keys(algo)    
         subspace = {k:space[k] for k in set(space).intersection(keys)}      
 
         #Build a model with the parameters from our Hyperopt search space.
