@@ -1,4 +1,6 @@
 sample_financial.py
-data/datasets/GOLD.csv
+data/datasets/GOLD_D.csv
+data/datasets/SILVER_D.csv
+data/datasets/SPX_D.csv
 .DS_Store
 data/.DS_Store
