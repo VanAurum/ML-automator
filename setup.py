@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mlautomator",
-    version="1.0.1",
+    version="1.0.4",
     author="Kevin Vecmanis",
     author_email="kevinvecmanis@gmail.com",
     description="A fast, simple way to train machine learning algorithms",
@@ -19,4 +19,11 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    install_requires=[
+        'numpy',
+        'pandas',
+        'sklearn',
+        'hyperopt',
+        'xgboost',
+    ]
 )

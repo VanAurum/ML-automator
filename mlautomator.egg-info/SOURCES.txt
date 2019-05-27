@@ -11,6 +11,7 @@ mlautomator/search_spaces.py
 mlautomator.egg-info/PKG-INFO
 mlautomator.egg-info/SOURCES.txt
 mlautomator.egg-info/dependency_links.txt
+mlautomator.egg-info/requires.txt
 mlautomator.egg-info/top_level.txt
 mlautomator/objectives/__init__.py
 mlautomator/objectives/classifier_objectives.py
