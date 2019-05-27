@@ -1,8 +1,13 @@
 Release History
 ===============
 
-dev
----
+development
+------------
+
+- Working to add support for MLP classification and Linear Regression.  
+- Working to add support for model persistence once training has finished.  
+- Working to add functionality to alert users when certain string-based categorical features should be encoded.  
+
 
 1.0.5 (2019-05-27)
 -------------------
@@ -12,6 +17,7 @@ dev
 - Fixed errors arising in testing because `self.objective` was replace with `self._objective` but not changed in the test suite.
 
 **Improvements**
+
 - Added coverage and links to shield.io badges on README.md
 
 
