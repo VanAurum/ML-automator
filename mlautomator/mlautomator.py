@@ -83,6 +83,7 @@ class MLAutomator:
         self.num_samples = self.x_train.shape[0]
         self.specific_algos = specific_algos
 
+
     def _initialize_best(self):
         '''Utility method for properly initializing the 'best' parameter.  
         
@@ -96,6 +97,7 @@ class MLAutomator:
             'neg_mean_squared_error' : 10000000,
         }
         self.best = initializer_dict[self.score_metric]
+
         
     def get_objective(self,obj):
         '''A dictionary look-up function that offers a clean way of looping through the objective 
@@ -130,7 +132,9 @@ class MLAutomator:
 
                     }     
 
+
         return objective_list[obj]
+
 
     def minimize_this(self,space):
         '''This is the "function to be minimized" by hyperopt. 
@@ -170,8 +174,10 @@ class MLAutomator:
             print(str1 + str2 + str3 + str4) 
 
         self.master_results.append([loss, space])
+
         
         return {'loss': loss, 'status': STATUS_OK}
+
 
     def find_best_algorithm(self):   
         '''Finds the top permorning algorithm on the data.  
@@ -203,6 +209,7 @@ class MLAutomator:
                 trials = trials,
             )    
 
+
     def get_obj_key_list(self):
         '''Retrieves list of keys from classifier/regressor search spaces.
         '''
@@ -210,7 +217,10 @@ class MLAutomator:
             return classifiers().keys()
         elif self.type == 'regressor':
             return regressors().keys()   
+
+
         return []
+
 
     def print_best_space(self):
         '''Prints out a report with the best algorithm and its configuration.
@@ -222,7 +232,6 @@ class MLAutomator:
             print('    '+ str(key)+' : '+ str(val), end='\n')                                
         print('    ' + 'Found best solution on iteration '+ str(self.found_best_on) + ' of ' + str(self.count)) 
         print('    ' + 'Validation used: ' +str(self.num_cv_folds) + '-fold cross-validation')          
-
 
 
     def save_best_model(self):

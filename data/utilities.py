@@ -41,6 +41,8 @@ def clf_prep(filename=None, target_columns=1, ignore_columns=None):
          
     x_train = feature_data.values
     y_train = target_data.values.ravel()
+
+
     return x_train, y_train
 
 
@@ -62,4 +64,6 @@ def from_sklearn(key):
     feature_data = dataframe[data.feature_names]
     x_train = feature_data.values
     y_train = data.target
+
+    
     return x_train, y_train

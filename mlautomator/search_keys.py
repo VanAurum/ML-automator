@@ -84,6 +84,7 @@ ALGORITHM_KEYS = {
     'GaussianNB': (),                            
 }
 
+
 def get_keys(algorithm):
     '''
     Returns the dictionary of comprehensive search key parameters that Hyperopt will attempt
@@ -97,4 +98,6 @@ def get_keys(algorithm):
         ALGORITHM_KEYS[algorithm] (dict): dictionary of search parameter keys.
 
     '''
+
+    
     return ALGORITHM_KEYS[algorithm]
