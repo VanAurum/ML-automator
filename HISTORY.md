@@ -14,12 +14,4 @@ anyway
 
 **Improvements**
 
-- Added relative import so that __MLAutomator__ class can be imported with: 
-
-```Python
-import mlautomator
-```
-rather than 
-```Python
-from mlautomator.mlautomator import MLAutomator
-```
+...birth!
