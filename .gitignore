@@ -1,4 +1,4 @@
-sample_financial.py
+examples/sample_financial.py
 data/datasets/GOLD_D.csv
 data/datasets/SILVER_D.csv
 data/datasets/SPX_D.csv

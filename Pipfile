@@ -11,6 +11,7 @@ hyperopt = "*"
 xgboost = "*"
 pylint = "*"
 coverage = "*"
+setuptools = "*"
 
 [dev-packages]
 
