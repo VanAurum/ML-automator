@@ -34,17 +34,17 @@ def get_model(algo, space_dict):
 
     model_lib = { 
         'xgboost_classifier': XGBClassifier,
-        'xgboost_regressor':  XGBRegressor,
-        'SGDClassifier': SGDClassifier,
-        'SGDRegressor': SGDRegressor,
-        'RandomForestClassifier': RandomForestClassifier,
-        'RandomForestRegressor': RandomForestRegressor,
-        'SVC': SVC,
-        'SVR': SVR,          
-        'LogisticRegression' : LogisticRegression,
-        'KNeighborClassifier': KNeighborsClassifier,
-        'KNeighborRegressor': KNeighborsRegressor,
-        'GaussianNB': GaussianNB,
+        #'xgboost_regressor':  XGBRegressor(**space),
+        #'SGDClassifier': SGDClassifier(**space),
+        #'SGDRegressor': SGDRegressor(**space),
+        #'RandomForestClassifier': RandomForestClassifier(**space),
+        #'RandomForestRegressor': RandomForestRegressor(**space),
+        #'SVC': SVC(**space),
+        #'SVR': SVR(**space),          
+        #'LogisticRegression' : LogisticRegression(**space),
+        #'KNeighborClassifier': KNeighborsClassifier(**space),
+        #'KNeighborRegressor': KNeighborsRegressor(**space),
+        #'GaussianNB': GaussianNB(**space),
     }
 
     return model_lib[algo](**space)

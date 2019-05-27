@@ -24,22 +24,22 @@ class TestClassifiers(unittest.TestCase):
     def test_objective01_xgboost(self):
         automator=MLAutomator(self.x, self.y, iterations=self.iters, specific_algos=['01'], num_cv_folds=self.folds)
         automator.find_best_algorithm()
-        self.assertEqual(automator.best_algo, 'xgboost_classifier')
+        self.assertEqual(automator.best_algo, 'XGBoost Classifier')
 
     def test_objective02_sgd_classifier(self):
         automator=MLAutomator(self.x, self.y, iterations=self.iters, specific_algos=['02'], num_cv_folds=self.folds)
         automator.find_best_algorithm()
-        self.assertEqual(automator.best_algo, 'SGDClassifier')
+        self.assertEqual(automator.best_algo, 'SGD Classifier')
 
     def test_objective03_sgd_classifier(self):
         automator=MLAutomator(self.x, self.y, iterations=self.iters, specific_algos=['03'], num_cv_folds=self.folds)
         automator.find_best_algorithm()
-        self.assertEqual(automator.best_algo, 'RandomForestClassifier')
+        self.assertEqual(automator.best_algo, 'Random Forest Classifier')
 
     def test_objective04_bag_of_svc(self):
         automator=MLAutomator(self.x, self.y, iterations=self.iters, specific_algos=['04'], num_cv_folds=self.folds)
         automator.find_best_algorithm()
-        self.assertEqual(automator.best_algo, 'SVC')                
+        self.assertEqual(automator.best_algo, 'Bag of Support Vector Machine Classifiers')                
 
     def test_objective05_naive_bayes(self):
         automator=MLAutomator(self.x, self.y, iterations=self.iters, specific_algos=['05'], num_cv_folds=self.folds)
@@ -49,12 +49,12 @@ class TestClassifiers(unittest.TestCase):
     def test_objective06_logistic_regression(self):
         automator=MLAutomator(self.x, self.y, iterations=self.iters, specific_algos=['06'], num_cv_folds=self.folds)
         automator.find_best_algorithm()
-        self.assertEqual(automator.best_algo, 'LogisticRegression')    
+        self.assertEqual(automator.best_algo, 'Logistic Regression')    
 
     def test_objective07_knn(self):
         automator=MLAutomator(self.x, self.y, iterations=self.iters, specific_algos=['07'], num_cv_folds=self.folds)
         automator.find_best_algorithm()
-        self.assertEqual(automator.best_algo, 'KNeighborClassifier')                    
+        self.assertEqual(automator.best_algo, 'K-Neighbor Classifier')                    
 
 
-  
+        

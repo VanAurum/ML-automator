@@ -12,6 +12,7 @@ xgboost = "*"
 pylint = "*"
 coverage = "*"
 setuptools = "*"
+twine = "*"
 
 [dev-packages]
 

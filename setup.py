@@ -3,15 +3,16 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+
 setuptools.setup(
-    name="MLAutomator-kevinvecmanis",
+    name="ml-automator",
     version="1.0.0",
     author="Kevin Vecmanis",
-    author_email="author@example.com",
-    description="A small example package",
+    author_email="kevinvecmanis@gmail.com",
+    description="A fast, simple way to train machine learning algorithms",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/VanAurum/ML-automator",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

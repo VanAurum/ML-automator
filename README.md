@@ -15,8 +15,8 @@ The trade-off here is that SMBO models spend more time between each iteration "s
 ## Key features:
 
 * Optimizes across data pre-processing and feature selection __in addition__ to hyperparameters.
-* Fast, intelligent scan of parameter space using __Hyperopt__. 
-* Optimized parameter search permits scanning a larger cross section of algorithms in the same period of time.  
+* Fast, intelligent scan of parameter space using __Hyperopt__.
+* Optimized parameter search permits scanning a larger cross section of algorithms in the same period of time.
 * An exceptional spot-checking algorithm.
 
 ## Usage 
