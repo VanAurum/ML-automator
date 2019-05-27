@@ -145,7 +145,7 @@ class MLAutomator:
             space (dict): Subset of total search space selected by Hyperopt.
         '''
         iter_start = time.time()
-        loss, algo = self.objective(self, space)
+        loss, algo = self._objective(self, space)
         self.count += 1
 
         # time methods for providing analytics on how each iteration is taking.

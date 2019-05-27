@@ -3,6 +3,8 @@
 
 [![image](https://img.shields.io/pypi/v/mlautomator.svg)](https://pypi.org/project/mlautomator/)
 [![image](https://img.shields.io/pypi/l/mlautomator.svg)](https://pypi.org/project/mlautomator/)
+[![image](https://img.shields.io/pypi/pyversions/mlautomator.svg)](https://pypi.org/project/mlautomator/)
+
 
 Machine Learning Automator (__ML Automator__) is an automation project that integrates __Sequential Model Based Optimization__ (SMBO) with the main learning algorithms from Python's Sci-kit Learn library to generate a really fast, automated tool for tuning machine learning algorithms.  __MLAutomator__ leverages a library called Hyperopt to accomplish this. [Read more about Hyperopt here](http://hyperopt.github.io/hyperopt/)
 

@@ -21,7 +21,7 @@ class TestMLAutomator(unittest.TestCase):
         self.assertEqual(self.automator.best,0)
         self.assertEqual(self.automator.count,0)
         self.assertEqual(self.automator.start_time,None)
-        self.assertEqual(self.automator.objective,None)
+        self.assertEqual(self.automator._objective,None)
         self.assertEqual(self.automator.keys,None)
         self.assertEqual(self.automator.master_results,[])
         self.assertEqual(self.automator.type,'classifier')
