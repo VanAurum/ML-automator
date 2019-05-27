@@ -9,8 +9,7 @@ dev
 
 **Bugfixes** 
 
-- Added conditions to catch the case where a search hasn't been executed on the data but user tries to print a summary
-anyway
+- Fixed errors arising in testing because `self.objective` was replace with `self._objective` but not changed in the test suite.
 
 **Improvements**
 - Added coverage and links to shield.io badges on README.md
