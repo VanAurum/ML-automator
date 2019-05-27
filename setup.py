@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ml-automator",
-    version="1.0.0",
+    version="1.0.1",
     author="Kevin Vecmanis",
     author_email="kevinvecmanis@gmail.com",
     description="A fast, simple way to train machine learning algorithms",

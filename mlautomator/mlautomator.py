@@ -238,6 +238,7 @@ class MLAutomator:
         print('    ' + 'Found best solution on iteration '+ str(self.found_best_on) + ' of ' + str(self.count)) 
         print('    ' + 'Validation used: ' +str(self.num_cv_folds) + '-fold cross-validation')   
 
+
     def save_best_model(self):
 
         # In case the find_best_algorithm method hasn't been run yet...
