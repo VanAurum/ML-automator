@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
-Name: ml-automator
-Version: 1.0.0
+Name: mlautomator
+Version: 1.0.1
 Summary: A fast, simple way to train machine learning algorithms
 Home-page: https://github.com/VanAurum/ML-automator
 Author: Kevin Vecmanis

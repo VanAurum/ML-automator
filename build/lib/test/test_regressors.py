@@ -24,6 +24,7 @@ class TestRegressors(unittest.TestCase):
     x, y = from_sklearn('boston')
     print('Data prepped')
 
+
     def test_objective01_xgboost_regressor(self):
         automator=MLAutomator(
             self.x, 
@@ -35,7 +36,7 @@ class TestRegressors(unittest.TestCase):
             score_metric = 'neg_mean_squared_error',
             )
         automator.find_best_algorithm()
-        self.assertEqual(automator.best_algo, 'XGBoost Regressor')
+        self.assertEqual(automator.best_algo, 'xgboost_regressor')
 
     def test_objective02_sgd_regressor(self):
         automator=MLAutomator(
@@ -48,7 +49,7 @@ class TestRegressors(unittest.TestCase):
             score_metric = 'neg_mean_squared_error',
             )        
         automator.find_best_algorithm()
-        self.assertEqual(automator.best_algo, 'SGD Regressor')
+        self.assertEqual(automator.best_algo, 'SGDRegressor')
 
     def test_objective03_sgd_regressor(self):
         automator=MLAutomator(
@@ -61,7 +62,7 @@ class TestRegressors(unittest.TestCase):
             score_metric = 'neg_mean_squared_error',
             )        
         automator.find_best_algorithm()
-        self.assertEqual(automator.best_algo, 'Random Forest Regressor')
+        self.assertEqual(automator.best_algo, 'RandomForestRegressor')
 
     def test_objective04_svr_regressor(self):
         automator=MLAutomator(
@@ -74,7 +75,7 @@ class TestRegressors(unittest.TestCase):
             score_metric = 'neg_mean_squared_error',
             )        
         automator.find_best_algorithm()
-        self.assertEqual(automator.best_algo, 'Support Vector Machine Regressor')                
+        self.assertEqual(automator.best_algo, 'SVR')                
 
     def test_objective05_knn_regressor(self):
         automator=MLAutomator(
@@ -87,7 +88,7 @@ class TestRegressors(unittest.TestCase):
             score_metric = 'neg_mean_squared_error',
             )        
         automator.find_best_algorithm()
-        self.assertEqual(automator.best_algo, 'K-Neighbor Regressor')          
+        self.assertEqual(automator.best_algo, 'KNeighborRegressor')          
 
 
 

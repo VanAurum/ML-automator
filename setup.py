@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 
 setuptools.setup(
-    name="ml-automator",
+    name="mlautomator",
     version="1.0.1",
     author="Kevin Vecmanis",
     author_email="kevinvecmanis@gmail.com",

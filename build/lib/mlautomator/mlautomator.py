@@ -64,7 +64,7 @@ class MLAutomator:
         #Beginning of initialization
         self.start_time = None
         self.count = 0
-        self.objective = None
+        self._objective = None
         self.keys = None
         self.master_results = []
         self.x_train = x_train.copy()
@@ -74,7 +74,6 @@ class MLAutomator:
         self.iterations = iterations
         self.num_cv_folds = num_cv_folds
         self.repeats = repeats
-        self.objective = None
         self._initialize_best()
         self.best_space = None
         self.best_algo = None
@@ -82,6 +81,7 @@ class MLAutomator:
         self.num_features = self.x_train.shape[1]
         self.num_samples = self.x_train.shape[0]
         self.specific_algos = specific_algos
+
 
     def _initialize_best(self):
         '''Utility method for properly initializing the 'best' parameter.  
@@ -96,9 +96,14 @@ class MLAutomator:
             'neg_mean_squared_error' : 10000000,
         }
         self.best = initializer_dict[self.score_metric]
-        
-    def get_objective(self,obj):
-        '''A dictionary look-up function that offers a clean way of looping through the objective 
+
+
+    def __repr__(self):
+        return f'MLAutomator ({self.type}, {self.score_metric}, Iterations: {self.iterations})'   
+
+
+    def _get_objective(self,obj):
+        '''A dictionary look-up utility that offers a clean way of looping through the objective 
         functions by key and returning the function call.  
 
         Args:
@@ -107,8 +112,8 @@ class MLAutomator:
         Returns:
             <objective_list[obj]> (function call): A call to the appropriate objective function.    
         '''
-        if self.type == 'classifier':
 
+        if self.type == 'classifier':
             objective_list = {        
                         '01': Classifiers.objective01,
                         '02': Classifiers.objective02,
@@ -118,21 +123,20 @@ class MLAutomator:
                         '06': Classifiers.objective06,
                         '07': Classifiers.objective07,
                     }   
-
         else:  
-
             objective_list= {        
                         '01': Regressors.objective01,
                         '02': Regressors.objective02,
                         '03': Regressors.objective03,
                         '04': Regressors.objective04,
                         '05': Regressors.objective05,
-
                     }     
+
 
         return objective_list[obj]
 
-    def minimize_this(self,space):
+
+    def _minimize_this(self,space):
         '''This is the "function to be minimized" by hyperopt. 
         
         This gets passed to the fmin function within the method find_best_algorithm.
@@ -170,8 +174,10 @@ class MLAutomator:
             print(str1 + str2 + str3 + str4) 
 
         self.master_results.append([loss, space])
+
         
         return {'loss': loss, 'status': STATUS_OK}
+
 
     def find_best_algorithm(self):   
         '''Finds the top permorning algorithm on the data.  
@@ -192,16 +198,17 @@ class MLAutomator:
 
         #Pass each objective function to Hyperopt.
         for obj in objectives:
-            self.objective = self.get_objective(obj)
+            self._objective = self._get_objective(obj)
             space = obj  
             trials = Trials()
             fmin(
-                fn = self.minimize_this,
+                fn = self._minimize_this,
                 space = get_space(self, space),
                 algo = tpe.suggest,
                 max_evals = self.iterations,
                 trials = trials,
             )    
+
 
     def get_obj_key_list(self):
         '''Retrieves list of keys from classifier/regressor search spaces.
@@ -210,9 +217,17 @@ class MLAutomator:
             return classifiers().keys()
         elif self.type == 'regressor':
             return regressors().keys()   
+
+
         return []
 
+
     def print_best_space(self):
+
+        if not self.best_space:
+            print('Best space has not been determined yet. No models have tried on this data.')
+            return 
+
         '''Prints out a report with the best algorithm and its configuration.
         '''
         print('Best Algorithm Configuration:')
@@ -221,15 +236,24 @@ class MLAutomator:
         for key,val in self.best_space.items():
             print('    '+ str(key)+' : '+ str(val), end='\n')                                
         print('    ' + 'Found best solution on iteration '+ str(self.found_best_on) + ' of ' + str(self.count)) 
-        print('    ' + 'Validation used: ' +str(self.num_cv_folds) + '-fold cross-validation')          
-
+        print('    ' + 'Validation used: ' +str(self.num_cv_folds) + '-fold cross-validation')   
 
 
     def save_best_model(self):
-        pass
 
+        # In case the find_best_algorithm method hasn't been run yet...
+        if not self.best_space:
+            print('Best model has not been determined. No models have been tried on this data yet.')
+            return        
+ 
 
     def fit_best_model(self):
+
+        # In case the find_best_algorithm method hasn't been run yet...
+        if not self.best_space:
+            print('Best model has not been determined. No models have been tried on this data yet.')
+            return
+
         print('\n')
         print('Fitting best model...')    
         k_best=self.best_space['k_best']

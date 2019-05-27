@@ -15,6 +15,7 @@ SCALER_LIST = [
 
 N_COMPONENTS = np.round(np.arange(0.1, 0.99, 0.01), 5)        
 
+
 def classifiers(**kwargs):
 
     # If there variable parameters to set they get passed through kwargs.
@@ -99,7 +100,9 @@ def classifiers(**kwargs):
                         
                 }
 
+
     return CLASSIFIER_SPACES        
+
 
 def regressors(**kwargs):
     '''
@@ -174,7 +177,9 @@ def regressors(**kwargs):
                             },                      
                 }
 
+
     return REGRESSION_SPACES            
+
 
 def get_space(automator, space):
     '''
@@ -189,6 +194,7 @@ def get_space(automator, space):
         <search space> (dict) :A selection of hyperparameters chosen for analysis in the optimization engine.   
     '''
     
+    # include any parameters that are data-dependent here
     algo_dependent_params = {
         'k_best' : np.arange(2, automator.num_features-1, 1),
         }
@@ -198,5 +204,6 @@ def get_space(automator, space):
 
     elif automator.type == 'regressor':     
         Space_List = regressors(**algo_dependent_params)
+
 
     return Space_List[space]
