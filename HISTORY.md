@@ -1,11 +1,11 @@
 Release History
 ===============
 
-development
+1.1.0 ( in development)
 ------------
 
 - Working to add support for MLP classification and Linear Regression.  
-- Working to add support for model persistence once training has finished.  
+- Working to add support for model persistence once training has finished - including and transformation models.
 - Working to add functionality to alert users when certain string-based categorical features should be encoded.  
 
 
