@@ -1,7 +1,6 @@
 language: python
 # command to install dependencies
 install: "make"
-cache: pip
 jobs:
   include:
     - stage: test
