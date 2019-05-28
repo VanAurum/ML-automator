@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: mlautomator
-Version: 1.0.5
+Version: 1.0.6
 Summary: A fast, simple way to train machine learning algorithms
 Home-page: https://github.com/VanAurum/ML-automator
 Author: Kevin Vecmanis
@@ -25,6 +25,13 @@ Description: # ML Automator
         * Reduced time tuning hyperparameters compared to grid and random search methods.
         * Better scores on the testing set.
         
+        ## Installation:
+        
+        Installation is easy - of course `pip` can be swapped for `pip3` or `pipenv` (in a virtual environment)
+        
+        `pip install mlautomator`
+        
+        
         ## Key features:
         
         * Optimizes across data pre-processing and feature selection __in addition__ to hyperparameters.
@@ -32,11 +39,13 @@ Description: # ML Automator
         * Optimized parameter search permits scanning a larger cross section of algorithms in the same period of time.
         * An exceptional spot-checking algorithm.
         
+        
         ## Usage 
         
         __MLAutomator__ accepts a training dataset X, and a target Y.  The user can define their own functions for how these datasets are produced.  Note that MLAutomator is designed to be a highly optimized spot-checking algorithm - you should take care to make sure your data is free from errors and any missing values have been dealt with.   
         
         __MLAutomator__ will find ways of transforming and pre-processing your data to produce a superior model.  Feel free to make your own transformations before passing the data to __MLAutomator__.  
+        
         
         ### Optional data utilities
         
@@ -49,6 +58,7 @@ Description: # ML Automator
         ```
         
         Once you have training and target data, this is the main call to use MLAutomator...
+        
         
         ### Classification Example: 2-class
         
@@ -78,6 +88,7 @@ Description: # ML Automator
             Found best solution on iteration 132 of 150
             Validation used: 10-fold cross-validation
         ```
+        
         
         ### Classification Example: Multi-class
         
@@ -165,6 +176,9 @@ Description: # ML Automator
         Unless otherwise declared using the __specific_algos__ argument, MLAutomator will scan all algorithms to find the best performer.
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Description-Content-Type: text/markdown
