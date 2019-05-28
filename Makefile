@@ -4,7 +4,7 @@ init:
 	pipenv install --dev
 
 test:
-	pipenv run python -m unittest discover
+	python -m unittest discover
 
 coverage:
 	coverage run --source=./test -m unittest discover
