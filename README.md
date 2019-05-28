@@ -30,6 +30,7 @@ __MLAutomator__ accepts a training dataset X, and a target Y.  The user can defi
 
 __MLAutomator__ will find ways of transforming and pre-processing your data to produce a superior model.  Feel free to make your own transformations before passing the data to __MLAutomator__.  
 
+
 ### Optional data utilities
 
 I'm building a suite of data utility functions which can prepare most classification and regression datasets.  These, however, are optional - __MLAutomator__ only requires __X and Y__ inputs in the form of a numpy ndarray.
@@ -41,6 +42,7 @@ x, y = clf_prep('pima-indians-diabetes.csv')
 ```
 
 Once you have training and target data, this is the main call to use MLAutomator...
+
 
 ### Classification Example: 2-class
 
@@ -70,6 +72,7 @@ Best Algorithm Configuration:
     Found best solution on iteration 132 of 150
     Validation used: 10-fold cross-validation
 ```
+
 
 ### Classification Example: Multi-class
 
