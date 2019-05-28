@@ -19,4 +19,5 @@ mlautomator/objectives/regressor_objectives.py
 test/__init__.py
 test/test_classifiers.py
 test/test_mlautomator.py
+test/test_persistence.py
 test/test_regressors.py

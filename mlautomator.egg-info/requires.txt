@@ -3,3 +3,4 @@ pandas
 sklearn
 hyperopt
 xgboost
+joblib
