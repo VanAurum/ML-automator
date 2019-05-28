@@ -19,9 +19,10 @@ The trade-off here is that SMBO models spend more time between each iteration "s
 
 ## Installation:
 
-Installation is easy - of course `pip` can be sweapped for `pip3` or `pipenv` (in a virtual environment)
+Installation is easy - of course `pip` can be swapped for `pip3` or `pipenv` (in a virtual environment)
 
 `pip install mlautomator`
+
 
 ## Key features:
 
@@ -29,6 +30,7 @@ Installation is easy - of course `pip` can be sweapped for `pip3` or `pipenv` (i
 * Fast, intelligent scan of parameter space using __Hyperopt__.
 * Optimized parameter search permits scanning a larger cross section of algorithms in the same period of time.
 * An exceptional spot-checking algorithm.
+
 
 ## Usage 
 
