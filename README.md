@@ -17,6 +17,12 @@ The trade-off here is that SMBO models spend more time between each iteration "s
 * Reduced time tuning hyperparameters compared to grid and random search methods.
 * Better scores on the testing set.
 
+## Installation:
+
+Installation is easy - of course `pip` can be sweapped for `pip3` or `pipenv` (in a virtual environment)
+
+`pip install mlautomator`
+
 ## Key features:
 
 * Optimizes across data pre-processing and feature selection __in addition__ to hyperparameters.
