@@ -51,10 +51,6 @@ class MLAutomator:
         best_algo (string): The description of the top performing algorithm.
         num_features (int): The number of features in the training data.
         num_samples (int): The number of samples in the training (and target) data.
-
-    Methods: 
-        _initialize_best(): internal method for initializing best model scor 
-
     '''
 
     def __init__(
