@@ -47,7 +47,7 @@ class TestMLAutomator(unittest.TestCase):
         for key in classifiers().keys():
             self.assertIsNotNone(get_space(self.automator, key))
 
-    def test_user_feedback_went_best_space_not_evaluated(self):
+    def test_user_feedback_when_best_space_not_evaluated(self):
         self.assertIsNone(self.automator.print_best_space()) 
-        self.assertIsNone(self.automator.save_best_model()) 
-        self.assertIsNone(self.automator.fit_best_model())                                      
+        self.assertIsNone(self.automator.save_best_pipeline()) 
+        self.assertIsNone(self.automator.fit_best_pipeline())                                      

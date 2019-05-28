@@ -28,5 +28,6 @@ setuptools.setup(
         'sklearn',
         'hyperopt',
         'xgboost',
+        'joblib',
     ]
 )

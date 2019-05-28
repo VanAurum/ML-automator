@@ -1,7 +1,10 @@
 #Standard Python libary imports
 import time
+import joblib
+import os
 from sklearn.pipeline import Pipeline 
 from sklearn.feature_selection import SelectKBest
+
 
 #3rd party imports
 from hyperopt import fmin, tpe, STATUS_OK, Trials
@@ -47,7 +50,11 @@ class MLAutomator:
         best_space (dict): The best search space discovered in the optimization process.
         best_algo (string): The description of the top performing algorithm.
         num_features (int): The number of features in the training data.
-        num_samples (int): The number of samples in the training (and target) data.     
+        num_samples (int): The number of samples in the training (and target) data.
+
+    Methods: 
+        _initialize_best(): internal method for initializing best model scor 
+
     '''
 
     def __init__(
@@ -61,11 +68,8 @@ class MLAutomator:
         repeats = 1,
         specific_algos = None,
     ):
-        #Beginning of initialization
-        self.start_time = None
+        # Beginning of initialization
         self.count = 0
-        self._objective = None
-        self.keys = None
         self.master_results = []
         self.x_train = x_train.copy()
         self.y_train = y_train.copy()
@@ -75,12 +79,22 @@ class MLAutomator:
         self.num_cv_folds = num_cv_folds
         self.repeats = repeats
         self._initialize_best()
-        self.best_space = None
-        self.best_algo = None
-        self.found_best_on = None
         self.num_features = self.x_train.shape[1]
         self.num_samples = self.x_train.shape[0]
         self.specific_algos = specific_algos
+
+        # Initialize empty attributes
+        self._objective = None
+        self.keys = None
+        self.best_space = None
+        self.best_algo = None
+        self.found_best_on = None
+        self.best_pipeline = None
+        self.start_time = None
+
+
+    def __repr__(self):
+        return f'MLAutomator ({self.type}, {self.score_metric}, Iterations: {self.iterations})'   
 
 
     def _initialize_best(self):
@@ -96,10 +110,6 @@ class MLAutomator:
             'neg_mean_squared_error' : 10000000,
         }
         self.best = initializer_dict[self.score_metric]
-
-
-    def __repr__(self):
-        return f'MLAutomator ({self.type}, {self.score_metric}, Iterations: {self.iterations})'   
 
 
     def _get_objective(self,obj):
@@ -239,30 +249,58 @@ class MLAutomator:
         print('    ' + 'Validation used: ' +str(self.num_cv_folds) + '-fold cross-validation')   
 
 
-    def save_best_model(self):
+    def save_best_pipeline(self, directory, filename='pipeline.joblib'):
 
         # In case the find_best_algorithm method hasn't been run yet...
-        if not self.best_space:
-            print('Best model has not been determined. No models have been tried on this data yet.')
-            return        
+        if not self.best_pipeline:
+            print('No pipeline has been fit. Try running fit_best_pipeline() first.')
+            return
+
+        if not directory: 
+            print ('No directory has been specified and is a requirement.')
+            return    
+
+        save_as = os.path.join(directory, filename)
+        # Export the pipeline to a file
+        joblib.dump(self.best_pipeline, open(save_as, 'wb'))
+        print('Best model has been saved to: '+save_as)
+
+
+    def load_best_pipeline(self, filename):
+
+        if not filename: 
+            print ('No directory has been specified and is a requirement.')
+            return    
+
+        # Load the pipeline from a file
+        self.best_pipeline = joblib.load(filename)     
  
 
-    def fit_best_model(self):
+    def fit_best_pipeline(self):
 
         # In case the find_best_algorithm method hasn't been run yet...
         if not self.best_space:
-            print('Best model has not been determined. No models have been tried on this data yet.')
+            print('Best model has not been determined. Run find_best_algorithm() first.')
             return
 
         print('\n')
-        print('Fitting best model...')    
-        k_best=self.best_space['k_best']
-        scaler=self.best_space['scaler']
+        print('Fitting best pipeline...')    
+
+        # Assemble pipeline variables
+        k_best = self.best_space['k_best']
+        scaler = self.best_space['scaler']
         model = get_model(self.best_algo, self.best_space)
+
+        # Build optimal pipeline again
+        pipeline = []
+        pipeline = Pipeline([
+            ('scaler', scaler),
+            ('select_best', SelectKBest(k = k_best)),
+            ('classifier', model),
+        ])
+
         print(model.get_params)
-        X_scaled = scaler.fit_transform(self.x_train)
-        X_new = SelectKBest(k = k_best).fit_transform(X_scaled, self.y_train)
-        self.fit_model = model.fit(X_new, self.y_train)
+        self.best_pipeline = pipeline.fit(self.x_train, self.y_train)
         print('Completed fitting the model on entire dataset with optimal parameters')
      
     

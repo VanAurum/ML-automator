@@ -6,3 +6,4 @@ data/datasets/SPX_D.csv
 data/.DS_Store
 .pypirc
 .vscode
+data/perstistence_tests/*
