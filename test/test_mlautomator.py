@@ -49,5 +49,5 @@ class TestMLAutomator(unittest.TestCase):
 
     def test_user_feedback_when_best_space_not_evaluated(self):
         self.assertIsNone(self.automator.print_best_space()) 
-        self.assertIsNone(self.automator.save_best_pipeline()) 
+        self.assertIsNone(self.automator.save_best_pipeline(directory = None)) 
         self.assertIsNone(self.automator.fit_best_pipeline())                                      
