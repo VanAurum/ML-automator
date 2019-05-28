@@ -145,6 +145,32 @@ Best Algorithm Configuration:
     Validation used: 10-fold cross-validation
 ```
 
+
+## Model Persistence 
+
+ML Automator allows you save fit, save, and load the optimal pipeline discovered by the `find_best_algorithm()` method.  A complete workflow would look something like this: 
+
+
+```Python
+from data.utilities import clf_prep
+from mlautomator.mlautomator import MLAutomator
+
+x, y = clf_prep('pima-indians-diabetes.csv')
+automator = MLAutomator(x, y, iterations = 30, algo_type = 'classifier', score_metric = 'accuracy')
+automator.find_best_algorithm()
+automator.fit_best_pipeline()
+automator.save_best_pipeline('Path/to/your/directory')
+
+# some time later....
+
+automator.load_best_pipeline('Path/to/your/directory')
+
+```
+
+Note that MLAutomator is storing the entire __transform/feature selection/model__ pipeline for you so that none of the prerequisite processing needs to be done when you need to make predictions on out-of-sample data. 
+
+
+
 ## Existing Algorithm Support
 
 __MLAutomator__ currently supports the following algorithms:
